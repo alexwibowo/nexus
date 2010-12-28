@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       ">
+
+    <bean id="soapMessageUtil" class="org.isolution.nexus.xml.soap.SOAPMessageUtil"/>
+    <bean id="xmlUtil" class="org.isolution.nexus.xml.XMLUtil"/>
+
+    <bean id="gatewayEndpoint" class="org.isolution.nexus.gateway.NexusGatewayEndpoint">
+        <constructor-arg ref="xmlUtil"/>
+    </bean>
+
+    <bean id="endpointMapping" class="org.springframework.ws.server.endpoint.mapping.UriEndpointMapping">
+        <property name="defaultEndpoint" ref="gatewayEndpoint"/>
+    </bean>
+
+    <bean id="messageFactory" class="org.springframework.ws.soap.axiom.AxiomSoapMessageFactory"/>
+        <!--<property name="payloadCaching" value="true"/>-->
+</beans>
