@@ -15,15 +15,15 @@ public class ServiceURIValidationUnitTest {
 
     @Test
     public void should_pass_when_both_namespace_and_localName_are_not_blank() throws Exception {
-        new ServiceURI("a namespace", "a localName");
+        new Service("a namespace", "a localName");
     }
 
     @Test
     public void should_fail_when_namespace_is_null(){
         try {
-            new ServiceURI(null, "a localName");
+            new Service(null, "a localName");
             fail("Should have failed, due to null namespace");
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidServiceURIException e) {
             assertThat(e.getMessage(), containsString("Invalid namespace: [null]"));
         }
     }
@@ -31,9 +31,9 @@ public class ServiceURIValidationUnitTest {
     @Test
     public void should_fail_when_namespace_is_blank() {
         try {
-            new ServiceURI(" ", "a localName");
+            new Service(" ", "a localName");
             fail("Should have failed, due to blank namespace");
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidServiceURIException e) {
             assertThat(e.getMessage(), containsString("Invalid namespace: [ ]"));
         }
     }
@@ -41,9 +41,9 @@ public class ServiceURIValidationUnitTest {
     @Test
     public void should_fail_when_localName_is_null() {
         try {
-            new ServiceURI("a namespace", null);
+            new Service("a namespace", null);
             fail("Should have failed, due to null localName");
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidServiceURIException e) {
             assertThat(e.getMessage(), containsString("Invalid localName: [null]"));
         }
     }
@@ -51,9 +51,9 @@ public class ServiceURIValidationUnitTest {
     @Test
     public void should_fail_when_localName_is_blank() {
         try {
-            new ServiceURI("a namespace", " ");
+            new Service("a namespace", " ");
             fail("Should have failed, due to blank localName");
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidServiceURIException e) {
             assertThat(e.getMessage(), containsString("Invalid localName: [ ]"));
         }
     }

@@ -14,19 +14,19 @@ public class ServiceURIStringRepresentationUnitTest {
 
     @Test
     public void should_get_represented_as_namespace_followed_by_localName() {
-        ServiceURI serviceURI = new ServiceURI("namespace", "localName");
-        assertThat(serviceURI.toString(), is("namespace:localName"));
+        Service service = new Service("namespace", "localName");
+        assertThat(service.toString(), is("namespace:localName"));
     }
 
     @Test
     public void should_trim_whitespaces_in_namespace() throws Exception {
-        ServiceURI serviceURI = new ServiceURI("    namespace   ", "localName");
-        assertThat(serviceURI.toString(), is("namespace:localName"));
+        Service service = new Service("    namespace   ", "localName");
+        assertThat(service.toString(), is("namespace:localName"));
     }
 
     @Test
     public void should_trim_whitespaces_in_localName() throws Exception {
-        ServiceURI serviceURI = new ServiceURI("namespace", "   localName  ");
-        assertThat(serviceURI.toString(), is("namespace:localName"));
+        Service service = new Service("namespace", "   localName  ");
+        assertThat(service.toString(), is("namespace:localName"));
     }
 }

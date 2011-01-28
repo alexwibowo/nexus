@@ -11,8 +11,128 @@
     <artifactId>nexus-gateway</artifactId>
     <packaging>war</packaging>
 
-
     <dependencies>
+        <dependency>
+            <groupId>com.oracle.jdbc</groupId>
+            <artifactId>ojdbc14g</artifactId>
+            <version>${oracle.version}</version>
+        </dependency>
+        <!--
+    Core utilities used by other modules.
+    Define this if you use Spring Utility APIs (org.springframework.core.*/org.springframework.util.*)
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--
+    Expression Language (depends on spring-core)
+    Define this if you use Spring Expression APIs (org.springframework.expression.*)
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--
+    Bean Factory and JavaBeans utilities (depends on spring-core)
+    Define this if you use Spring Bean APIs (org.springframework.beans.*)
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--
+    Aspect Oriented Programming (AOP) Framework (depends on spring-core, spring-beans)
+    Define this if you use Spring AOP APIs (org.springframework.aop.*)
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--
+    Application Context (depends on spring-core, spring-expression, spring-aop, spring-beans)
+    This is the central artifact for Spring's Dependency Injection Container and is generally always defined
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--
+    Various Application Context utilities, including EhCache, JavaMail, Quartz, and Freemarker integration
+    Define this if you need any of these integrations
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--
+    Transaction Management Abstraction (depends on spring-core, spring-beans, spring-aop, spring-context)
+    Define this if you use Spring Transactions or DAO Exception Hierarchy
+    (org.springframework.transaction.*/org.springframework.dao.*)
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--
+    JDBC Data Access Library (depends on spring-core, spring-beans, spring-context, spring-tx)
+    Define this if you use Spring's JdbcTemplate API (org.springframework.jdbc.*)
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--
+    Object-to-Relation-Mapping (ORM) integration with Hibernate, JPA, and iBatis.
+    (depends on spring-core, spring-beans, spring-context, spring-tx)
+    Define this if you need ORM (org.springframework.orm.*)
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--
+    Object-to-XML Mapping (OXM) abstraction and integration with JAXB, JiBX, Castor, XStream, and XML Beans.
+    (depends on spring-core, spring-beans, spring-context)
+    Define this if you need OXM (org.springframework.oxm.*)
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--
+    Web application development utilities applicable to both Servlet and Portlet Environments
+    (depends on spring-core, spring-beans, spring-context)
+    Define this if you use Spring MVC, or wish to use Struts, JSF, or another web framework with Spring (org.springframework.web.*)
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--
+    Support for testing Spring applications with tools such as JUnit and TestNG
+    This artifact is generally always defined with a 'test' scope for the integration testing framework and unit testing stubs
+-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+
         <dependency>
             <groupId>org.apache.ws.commons.axiom</groupId>
             <artifactId>axiom-api</artifactId>
@@ -33,11 +153,43 @@
             <artifactId>guava</artifactId>
             <version>${google.guava.version}</version>
         </dependency>
+        <!--<dependency>-->
+        <!--<groupId>javax</groupId>-->
+        <!--<artifactId>javaee-web-api</artifactId>-->
+        <!--<version>${javaee.version}</version>-->
+        <!--<scope>provided</scope>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <version>${javaee.version}</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>javax.persistence</groupId>-->
+        <!--<artifactId>persistence-api</artifactId>-->
+        <!--<version>1.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.hibernate</groupId>-->
+        <!--<artifactId>hibernate-core</artifactId>-->
+        <!--<version>${hibernate.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.hibernate</groupId>-->
+        <!--<artifactId>hibernate-annotations</artifactId>-->
+        <!--<version>${hibernate.annotations.version}</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>3.5.1-Final</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.ws</groupId>
@@ -49,9 +201,21 @@
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
         </dependency>
-
-
-
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>${apache.commons-collections.version}</version>
+        </dependency>
     </dependencies>
 
 

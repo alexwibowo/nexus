@@ -6,7 +6,7 @@ import org.apache.axiom.soap.SOAPEnvelope;
 import org.apache.axiom.soap.SOAPVersion;
 import org.apache.axiom.soap.impl.builder.StAXSOAPModelBuilder;
 import org.apache.commons.lang.StringUtils;
-import org.isolution.nexus.domain.ServiceURI;
+import org.isolution.nexus.domain.Service;
 
 import javax.xml.soap.SOAPException;
 import javax.xml.stream.XMLStreamException;
@@ -68,12 +68,12 @@ public class SOAPMessageUtil {
 
     /**
      * @param soapMessageStr string representation of the SOAP message
-     * @return service ServiceURI for the SOAP message
+     * @return service Service for the SOAP message
      * @throws XMLStreamException any error that occurred during the XML processing of the SOAP message
      * @throws SOAPException      if the SOAP has empty body
-     * @see ServiceURI
+     * @see org.isolution.nexus.domain.Service
      */
-    public ServiceURI getServiceURI(String soapMessageStr) throws XMLStreamException, SOAPException {
+    public Service getServiceURI(String soapMessageStr) throws XMLStreamException, SOAPException {
         return getServiceURI(getSOAPEnvelope(soapMessageStr));
     }
 
@@ -81,9 +81,9 @@ public class SOAPMessageUtil {
      * @param streamReader {@link XMLStreamReader} to read SOAP message from
      * @return ServiceURI for the SOAP message that is read from the given {@link XMLStreamReader}
      * @throws SOAPException      if the SOAP has empty body
-     * @see ServiceURI
+     * @see org.isolution.nexus.domain.Service
      */
-    public ServiceURI getServiceURI(XMLStreamReader streamReader) throws SOAPException {
+    public Service getServiceURI(XMLStreamReader streamReader) throws SOAPException {
         return getServiceURI(getSOAPEnvelope(streamReader));
     }
 
@@ -91,15 +91,15 @@ public class SOAPMessageUtil {
      * @param soapEnvelope {@link SOAPEnvelope}
      * @return ServiceURI for the given {@link SOAPEnvelope}
      * @throws SOAPException  if the SOAP has empty body
-     * @see ServiceURI
+     * @see org.isolution.nexus.domain.Service
      */
-    public ServiceURI getServiceURI(SOAPEnvelope soapEnvelope) throws SOAPException {
+    public Service getServiceURI(SOAPEnvelope soapEnvelope) throws SOAPException {
         OMNamespace soapBodyFirstElementNS = soapEnvelope.getSOAPBodyFirstElementNS();
         if (soapBodyFirstElementNS == null) {
             throw new SOAPException("Empty SOAP Body");
         }
         String localName = soapEnvelope.getSOAPBodyFirstElementLocalName();
-        return new ServiceURI(soapBodyFirstElementNS.getNamespaceURI(), localName);
+        return new Service(soapBodyFirstElementNS.getNamespaceURI(), localName);
     }
 
     /**

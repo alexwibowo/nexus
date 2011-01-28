@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        ">
 
     <bean id="soapMessageUtil" class="org.isolution.nexus.xml.soap.SOAPMessageUtil"/>
@@ -16,6 +16,7 @@
         <property name="defaultEndpoint" ref="gatewayEndpoint"/>
     </bean>
 
+    <!-- this is needed so that UriEndpointMapping uses AxioSoapMessageFactory internally -->
     <bean id="messageFactory" class="org.springframework.ws.soap.axiom.AxiomSoapMessageFactory"/>
-        <!--<property name="payloadCaching" value="true"/>-->
+    <!--<property name="payloadCaching" value="true"/>-->
 </beans>

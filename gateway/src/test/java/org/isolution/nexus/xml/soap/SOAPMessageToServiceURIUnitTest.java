@@ -1,7 +1,7 @@
 package org.isolution.nexus.xml.soap;
 
 import org.apache.axiom.soap.SOAPProcessingException;
-import org.isolution.nexus.domain.ServiceURI;
+import org.isolution.nexus.domain.Service;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -31,71 +31,71 @@ public class SOAPMessageToServiceURIUnitTest extends AbstractSOAPMessageUnitTest
     @Test
     public void should_work_with_soap11_string() throws Exception {
         SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11Fixture;
-        ServiceURI serviceURI = soapMessageUtil.getServiceURI(fixture.getSOAPStr());
-        assertThat(serviceURI, not(nullValue()));
-        assertThat(serviceURI.getNamespace(), is(fixture.getNamespace()));
-        assertThat(serviceURI.getLocalName(), is(fixture.getLocalName()));
+        Service service = soapMessageUtil.getServiceURI(fixture.getSOAPStr());
+        assertThat(service, not(nullValue()));
+        assertThat(service.getServiceURI().getNamespace(), is(fixture.getNamespace()));
+        assertThat(service.getServiceURI().getLocalName(), is(fixture.getLocalName()));
     }
 
     @Test
     public void should_work_with_soap11_XMLStreamReader() throws Exception {
         SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11Fixture;
-        ServiceURI serviceURI = soapMessageUtil.getServiceURI(getXMLStreamReader(fixture.getSOAPStr()));
-        assertThat(serviceURI, not(nullValue()));
-        assertThat(serviceURI.getNamespace(), is(fixture.getNamespace()));
-        assertThat(serviceURI.getLocalName(), is(fixture.getLocalName()));
+        Service service = soapMessageUtil.getServiceURI(getXMLStreamReader(fixture.getSOAPStr()));
+        assertThat(service, not(nullValue()));
+        assertThat(service.getServiceURI().getNamespace(), is(fixture.getNamespace()));
+        assertThat(service.getServiceURI().getLocalName(), is(fixture.getLocalName()));
     }
 
     @Test
     public void should_work_with_soap11_SOAPEnvelope() throws Exception {
         SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11Fixture;
-        ServiceURI serviceURI = soapMessageUtil.getServiceURI(getSOAPEnvelope(fixture.getSOAPStr()));
-        assertThat(serviceURI, not(nullValue()));
-        assertThat(serviceURI.getNamespace(), is(fixture.getNamespace()));
-        assertThat(serviceURI.getLocalName(), is(fixture.getLocalName()));
+        Service service = soapMessageUtil.getServiceURI(getSOAPEnvelope(fixture.getSOAPStr()));
+        assertThat(service, not(nullValue()));
+        assertThat(service.getServiceURI().getNamespace(), is(fixture.getNamespace()));
+        assertThat(service.getServiceURI().getLocalName(), is(fixture.getLocalName()));
 
     }
 
     @Test
     public void should_work_with_soap11_with_multiple_body() throws Exception {
         SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11WithMultipleChildFixture;
-        ServiceURI serviceURI = soapMessageUtil.getServiceURI(fixture.getSOAPStr());
-        assertThat(serviceURI, not(nullValue()));
-        assertThat(serviceURI.getNamespace(), is(fixture.getNamespace()));
-        assertThat(serviceURI.getLocalName(), is(fixture.getLocalName()));
+        Service service = soapMessageUtil.getServiceURI(fixture.getSOAPStr());
+        assertThat(service, not(nullValue()));
+        assertThat(service.getServiceURI().getNamespace(), is(fixture.getNamespace()));
+        assertThat(service.getServiceURI().getLocalName(), is(fixture.getLocalName()));
     }
 
     @Test
     public void should_work_with_soap12_string() throws Exception {
         SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP12Fixture;
-        ServiceURI serviceURI = soapMessageUtil.getServiceURI(fixture.getSOAPStr());
-        assertThat(serviceURI.getNamespace(), is(fixture.getNamespace()));
-        assertThat(serviceURI.getLocalName(), is(fixture.getLocalName()));
+        Service service = soapMessageUtil.getServiceURI(fixture.getSOAPStr());
+        assertThat(service.getServiceURI().getNamespace(), is(fixture.getNamespace()));
+        assertThat(service.getServiceURI().getLocalName(), is(fixture.getLocalName()));
     }
 
     @Test
     public void should_work_with_soap12_XMLStreamReader() throws Exception {
         SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP12Fixture;
-        ServiceURI serviceURI = soapMessageUtil.getServiceURI(getXMLStreamReader(fixture.getSOAPStr()));
-        assertThat(serviceURI.getNamespace(), is(fixture.getNamespace()));
-        assertThat(serviceURI.getLocalName(), is(fixture.getLocalName()));
+        Service service = soapMessageUtil.getServiceURI(getXMLStreamReader(fixture.getSOAPStr()));
+        assertThat(service.getServiceURI().getNamespace(), is(fixture.getNamespace()));
+        assertThat(service.getServiceURI().getLocalName(), is(fixture.getLocalName()));
     }
 
     @Test
     public void should_work_with_soap12_SOAPEnvelope() throws Exception {
         SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP12Fixture;
-        ServiceURI serviceURI = soapMessageUtil.getServiceURI(getSOAPEnvelope(fixture.getSOAPStr()));
-        assertThat(serviceURI.getNamespace(), is(fixture.getNamespace()));
-        assertThat(serviceURI.getLocalName(), is(fixture.getLocalName()));
+        Service service = soapMessageUtil.getServiceURI(getSOAPEnvelope(fixture.getSOAPStr()));
+        assertThat(service.getServiceURI().getNamespace(), is(fixture.getNamespace()));
+        assertThat(service.getServiceURI().getLocalName(), is(fixture.getLocalName()));
     }
 
     @Test
     public void should_work_with_soap12_string_with_multiple_body() throws Exception {
         SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP12WithMultipleChildFixture;
-        ServiceURI serviceURI = soapMessageUtil.getServiceURI(fixture.getSOAPStr());
-        assertThat(serviceURI, not(nullValue()));
-        assertThat(serviceURI.getNamespace(), is(fixture.getNamespace()));
-        assertThat(serviceURI.getLocalName(), is(fixture.getLocalName()));
+        Service service = soapMessageUtil.getServiceURI(fixture.getSOAPStr());
+        assertThat(service, not(nullValue()));
+        assertThat(service.getServiceURI().getNamespace(), is(fixture.getNamespace()));
+        assertThat(service.getServiceURI().getLocalName(), is(fixture.getLocalName()));
     }
 
     @Test

@@ -1,12 +1,11 @@
 package org.isolution.nexus;
 
+import org.isolution.nexus.domain.Service;
 import org.isolution.nexus.domain.ServiceURI;
 import org.isolution.nexus.xml.AbstractXMLUnitTest;
 import org.isolution.nexus.xml.XMLUtil;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.xml.stream.XMLStreamException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
