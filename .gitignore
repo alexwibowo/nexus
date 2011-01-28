@@ -1,0 +1,7 @@
+*.ipr
+*.iml
+out/*
+.idea/*
+*.ids
+*.iws
+.project
