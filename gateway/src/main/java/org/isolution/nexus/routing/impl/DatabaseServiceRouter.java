@@ -7,6 +7,7 @@ import org.isolution.nexus.domain.ServiceEndpoint;
 import org.isolution.nexus.domain.ServiceURI;
 import org.isolution.nexus.domain.dao.EndpointDAO;
 import org.isolution.nexus.domain.dao.ServiceDAO;
+import org.isolution.nexus.routing.InactiveServiceException;
 import org.isolution.nexus.routing.NoActiveRouteException;
 import org.isolution.nexus.routing.ServiceNotFoundException;
 import org.isolution.nexus.routing.ServiceRouter;
@@ -30,8 +31,9 @@ public class DatabaseServiceRouter implements ServiceRouter{
 
     @Override
     public Endpoint findSingleActiveEndpoint(final String serviceURIString)
-            throws ServiceNotFoundException, NoActiveRouteException {
-        Service service = getService(serviceURIString);
+            throws ServiceNotFoundException, NoActiveRouteException, InactiveServiceException {
+        Service service = findActiveService(serviceURIString);
+
         for (ServiceEndpoint serviceEndpoint : service.getServiceEndpoints()) {
             if (serviceEndpoint.isRoutable()) {
                 return serviceEndpoint.getEndpoint();
@@ -39,6 +41,18 @@ public class DatabaseServiceRouter implements ServiceRouter{
         }
         throw NoActiveRouteException.noActiveEndpointForService(service);
     }
+
+    @Override
+    public Service findActiveService(final String serviceURIString)
+            throws InactiveServiceException, ServiceNotFoundException {
+        Service service = getService(serviceURIString);
+        if (!service.isActive()) {
+            throw new InactiveServiceException(serviceURIString);
+        }
+        return service;
+    }
+
+
 
     private Service getService(String serviceURIString) throws ServiceNotFoundException {
         Service service = null;

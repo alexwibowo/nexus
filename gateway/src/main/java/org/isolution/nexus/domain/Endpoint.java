@@ -65,6 +65,15 @@ public class Endpoint extends AbstractModel {
         this.status = status;
     }
 
+    public void activate() {
+        setStatus(Status.ACTIVE);
+    }
+
+    public void inactivate() {
+        setStatus(Status.INACTIVE);
+    }
+
+
     public List<ServiceEndpoint> getServiceEndpoints() {
         return serviceEndpoints;
     }

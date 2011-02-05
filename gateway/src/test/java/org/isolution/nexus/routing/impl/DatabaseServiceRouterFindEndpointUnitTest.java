@@ -1,17 +1,21 @@
 package org.isolution.nexus.routing.impl;
 
-import org.isolution.nexus.domain.Endpoint;
-import org.isolution.nexus.domain.Service;
-import org.isolution.nexus.domain.ServiceURI;
-import org.isolution.nexus.domain.Status;
+import org.apache.commons.collections.CollectionUtils;
+import org.isolution.nexus.domain.*;
 import org.isolution.nexus.domain.dao.EndpointDAO;
 import org.isolution.nexus.domain.dao.ServiceDAO;
+import org.isolution.nexus.routing.InactiveServiceException;
+import org.isolution.nexus.routing.NoActiveRouteException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Collections;
+import java.util.List;
+
+import static java.util.Collections.reverse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -48,46 +52,55 @@ public class DatabaseServiceRouterFindEndpointUnitTest {
         activeEndpoint = new Endpoint();
         inactiveEndpoint = new Endpoint();
 
+        serviceURI = new ServiceURI("http://www.namespace.com/payment.xsd", "Payment");
         service.setServiceURI(serviceURI);
+
         service.addEndpoint(activeEndpoint, Status.ACTIVE);
         service.addEndpoint(inactiveEndpoint, Status.INACTIVE);
 
-        serviceURI = new ServiceURI("http://www.namespace.com/payment.xsd", "Payment");
         initMocks(this);
         databaseServiceRouter = new DatabaseServiceRouter(mockServiceDAO, mockEndpointDAO);
+
+        when(mockServiceDAO.getEndpointByServiceURI(anyString())).thenReturn(service);
     }
 
     @Test
     public void should_find_endoint_by_the_serviceURI() throws Exception{
-        when(mockServiceDAO.getEndpointByServiceURI(anyString())).thenReturn(service);
 
         Endpoint endpoint = databaseServiceRouter.findSingleActiveEndpoint("http://www.namespace.com/payment.xsd:Payment");
         assertThat(endpoint, not(nullValue()));
         assertThat(endpoint, is(activeEndpoint));
     }
 
-
     @Test
-    public void should_fail_when_service_doesnt_have_namespace() {
-        try {
-            databaseServiceRouter.findSingleActiveEndpoint(":Payment");
-            fail("Should have failed due to empty namespace");
-        } catch (Exception e) {
+    public void should_only_return_active_endpoint_by_the_serviceURI() throws Exception {
+        reverse(service.getServiceEndpoints());
+        assertThat(service.getServiceEndpoints().get(0).isActive(), is(false));
+        assertThat(service.getServiceEndpoints().get(1).isActive(), is(true));
 
-        }
+        Endpoint endpoint = databaseServiceRouter.findSingleActiveEndpoint("http://www.namespace.com/payment.xsd:Payment");
+        assertThat(endpoint, not(nullValue()));
+        assertThat(endpoint, is(activeEndpoint));
     }
 
-    @Test
-    public void should_fail_when_service_doesnt_have_localname() {
-        try {
-            databaseServiceRouter.findSingleActiveEndpoint("http://www.namespace.com/payment.xsd");
-            fail("Should have failed due to empty localname");
-        } catch (Exception e) {
-
-        }
+    @Test(expected = InactiveServiceException.class)
+    public void should_fail_when_service_is_inactive() throws Exception{
+        service.inactivate();
+        databaseServiceRouter.findSingleActiveEndpoint("http://www.namespace.com/payment.xsd:Payment");
     }
 
+    @Test(expected = NoActiveRouteException.class)
+    public void should_fail_when_the_endpoint_is_inactive() throws Exception{
+        activeEndpoint.inactivate();
+        inactiveEndpoint.inactivate();
+        databaseServiceRouter.findSingleActiveEndpoint("http://www.namespace.com/payment.xsd:Payment");
+    }
 
-
-
+    @Test(expected = NoActiveRouteException.class)
+    public void should_fail_when_the_relationship_is_inactive() throws Exception{
+        for (ServiceEndpoint serviceEndpoint : service.getServiceEndpoints()) {
+            serviceEndpoint.inactivate();
+        }
+        databaseServiceRouter.findSingleActiveEndpoint("http://www.namespace.com/payment.xsd:Payment");
+    }
 }

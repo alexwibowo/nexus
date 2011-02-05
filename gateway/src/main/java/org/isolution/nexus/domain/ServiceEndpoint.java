@@ -63,6 +63,15 @@ public class ServiceEndpoint {
         this.status = status;
     }
 
+    public void activate() {
+          setStatus(Status.ACTIVE);
+      }
+
+      public void inactivate() {
+          setStatus(Status.INACTIVE);
+      }
+
+
     public boolean isActive() {
         return Status.ACTIVE.equals(getStatus());
     }

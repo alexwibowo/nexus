@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -58,6 +59,29 @@ public class Service extends AbstractModel {
         this.status = status;
     }
 
+    /**
+     * Change the status of this sevice to {@link Status#ACTIVE}
+     * Note that this method does NOT change the status of all the {@link #serviceEndpoints}.
+     * This is because the status of the relationship is also driven from {@link Endpoint}
+     */
+    public void activate() {
+        setStatus(Status.ACTIVE);
+    }
+
+    /**
+     * Change the status of this service to {@link Status#INACTIVE}
+     * This method also change the status of all the {@link #serviceEndpoints}
+     * to {@link Status#INACTIVE}.
+     */
+    public void inactivate() {
+        setStatus(Status.INACTIVE);
+
+        // inactivating a service theoretically sets all the relationship as inactive too!
+        for (ServiceEndpoint serviceEndpoint : serviceEndpoints) {
+            serviceEndpoint.inactivate();
+        }
+    }
+
     public List<ServiceEndpoint> getServiceEndpoints() {
         return serviceEndpoints;
     }
@@ -83,7 +107,8 @@ public class Service extends AbstractModel {
         for (ServiceEndpoint serviceEndpoint : serviceEndpoints) {
             endpoints.add(serviceEndpoint.getEndpoint());
         }
-        return endpoints;
+        // for security purpose. adding endpoint should be done through addEndpoint() method
+        return Collections.unmodifiableList(endpoints);
     }
 
     /**
@@ -97,7 +122,9 @@ public class Service extends AbstractModel {
                 endpoints.add(serviceEndpoint.getEndpoint());
             }
         }
-        return endpoints;
+
+        // for security purpose. adding endpoint should be done through addEndpoint() method
+        return Collections.unmodifiableList(endpoints);
     }
 
     public String toString() {
