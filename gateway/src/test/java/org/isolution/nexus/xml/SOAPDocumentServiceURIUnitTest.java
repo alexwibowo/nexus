@@ -1,10 +1,6 @@
-package org.isolution.nexus;
+package org.isolution.nexus.xml;
 
-import org.isolution.nexus.domain.Service;
 import org.isolution.nexus.domain.ServiceURI;
-import org.isolution.nexus.xml.AbstractXMLUnitTest;
-import org.isolution.nexus.xml.XMLUtil;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,25 +13,20 @@ import static org.junit.Assert.fail;
  * Date: 28/12/10
  * Time: 12:28 AM
  */
-public class XMLUtilServiceURIUnitTest extends AbstractXMLUnitTest {
-    private XMLUtil xmlUtil;
-
-    @Before
-    public void setup() {
-        super.setup();
-        xmlUtil = new XMLUtil();
-    }
+public class SOAPDocumentServiceURIUnitTest extends AbstractXMLUnitTest {
 
     @Test
     public void should_work_in_simple_case() throws Exception {
-        ServiceURI serviceURI = xmlUtil.getServiceURI(getXMLStreamReader("<root xmlns=\"http://www.alex.com\"><title>Alex</title></root>"));
+        SOAPDocument soapDocument = new SOAPDocument(getXMLStreamReader("<root xmlns=\"http://www.alex.com\"><title>Alex</title></root>"));
+        ServiceURI serviceURI = soapDocument.getServiceURI();
         assertThat(serviceURI.getNamespace(), is("http://www.alex.com"));
         assertThat(serviceURI.getLocalName(), is("root"));
     }
 
     @Test
     public void should_work_with_complex_document() throws Exception {
-        ServiceURI serviceURI = xmlUtil.getServiceURI(getXMLStreamReader("<root xmlns=\"http://www.alex.com\"><person><firstName>Alex</firstName><lastName>Wibowo</lastName</person></root>"));
+        SOAPDocument soapDocument = new SOAPDocument(getXMLStreamReader("<root xmlns=\"http://www.alex.com\"><person><firstName>Alex</firstName><lastName>Wibowo</lastName</person></root>"));
+        ServiceURI serviceURI = soapDocument.getServiceURI();
         assertThat(serviceURI.getNamespace(), is("http://www.alex.com"));
         assertThat(serviceURI.getLocalName(), is("root"));
     }
@@ -43,7 +34,8 @@ public class XMLUtilServiceURIUnitTest extends AbstractXMLUnitTest {
     @Test
     public void should_fail_if_theres_no_namespace_for_root_element() throws Exception {
         try {
-            xmlUtil.getServiceURI(getXMLStreamReader("<root><title>Alex</title></root>"));
+            SOAPDocument soapDocument = new SOAPDocument(getXMLStreamReader("<root><title>Alex</title></root>"));
+            soapDocument.getServiceURI();
             fail("Should have failed - due to document without namespace");
         } catch (Exception e) {
             assertThat(e.getMessage(), containsString("Invalid namespace: [null]"));
@@ -52,13 +44,15 @@ public class XMLUtilServiceURIUnitTest extends AbstractXMLUnitTest {
 
     @Test
     public void should_return_namespace_of_the_root_element() throws Exception {
-        ServiceURI serviceURI = xmlUtil.getServiceURI(getXMLStreamReader("<root xmlns:desc=\"http://www.bogus.com\" xmlns=\"http://www.alex.com\" ><title>Alex</title><desc:description>another chapter</desc:description></root>"));
+        SOAPDocument soapDocument = new SOAPDocument(getXMLStreamReader("<root xmlns:desc=\"http://www.bogus.com\" xmlns=\"http://www.alex.com\" ><title>Alex</title><desc:description>another chapter</desc:description></root>"));
+        ServiceURI serviceURI = soapDocument.getServiceURI();
         assertThat(serviceURI.getNamespace(), is("http://www.alex.com"));
     }
 
     @Test
     public void should_use_first_child_elementName_as_localName() throws Exception {
-        ServiceURI serviceURI = xmlUtil.getServiceURI(getXMLStreamReader("<root xmlns:desc=\"http://www.bogus.com\" xmlns=\"http://www.alex.com\" ><title>Alex</title><desc:description>another chapter</desc:description></root>"));
+        SOAPDocument soapDocument = new SOAPDocument(getXMLStreamReader("<root xmlns:desc=\"http://www.bogus.com\" xmlns=\"http://www.alex.com\" ><title>Alex</title><desc:description>another chapter</desc:description></root>"));
+        ServiceURI serviceURI = soapDocument.getServiceURI();
         assertThat(serviceURI.getLocalName(), is("root"));
 
     }
@@ -66,7 +60,7 @@ public class XMLUtilServiceURIUnitTest extends AbstractXMLUnitTest {
     @Test
     public void should_fail_for_empty_XML() throws Exception {
         try {
-            xmlUtil.getServiceURI(getXMLStreamReader("   "));
+            new SOAPDocument(getXMLStreamReader("   ")).getServiceURI();
             fail("Should have failed, due to empty XML");
         } catch (Exception e) {
         }
@@ -75,7 +69,7 @@ public class XMLUtilServiceURIUnitTest extends AbstractXMLUnitTest {
     @Test
     public void should_fail_for_non_XML_message() throws Exception {
         try {
-            xmlUtil.getServiceURI(getXMLStreamReader(" abcdef "));
+            new SOAPDocument(getXMLStreamReader(" abcdef ")).getServiceURI();
             fail("Should have failed, due to non XML message");
         } catch (Exception e) {
         }
@@ -83,14 +77,16 @@ public class XMLUtilServiceURIUnitTest extends AbstractXMLUnitTest {
 
     @Test
     public void should_compensate_for_non_wellFormed_XML_message() throws Exception {
-        ServiceURI serviceURI = xmlUtil.getServiceURI(getXMLStreamReader("<root xmlns=\"http://www.alex.com\"><title>Alex"));
+        SOAPDocument soapDocument = new SOAPDocument(getXMLStreamReader("<root xmlns=\"http://www.alex.com\"><title>Alex"));
+        ServiceURI serviceURI = soapDocument.getServiceURI();
         assertThat(serviceURI.getNamespace(), is("http://www.alex.com"));
         assertThat(serviceURI.getLocalName(), is("root"));
     }
 
     @Test
     public void should_work_for_XML_with_comments() throws Exception {
-        ServiceURI serviceURI = xmlUtil.getServiceURI(getXMLStreamReader("<!-- This is a comment --><root xmlns=\"http://www.alex.com\"><title>Alex</title></root>"));
+        SOAPDocument soapDocument = new SOAPDocument(getXMLStreamReader("<!-- This is a comment --><root xmlns=\"http://www.alex.com\"><title>Alex</title></root>"));
+        ServiceURI serviceURI = soapDocument.getServiceURI();
         assertThat(serviceURI.getNamespace(), is("http://www.alex.com"));
         assertThat(serviceURI.getLocalName(), is("root"));
     }

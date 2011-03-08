@@ -5,7 +5,9 @@ import org.junit.Before;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.io.ByteArrayInputStream;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 
 /**
  * User: agwibowo
@@ -22,5 +24,15 @@ public abstract class AbstractXMLUnitTest {
 
     protected XMLStreamReader getXMLStreamReader(String xmlString) throws XMLStreamException {
         return xmlInputFactory.createXMLStreamReader(new StringReader(xmlString));
+    }
+
+    protected XMLStreamReader getXMLStreamReader(byte[] bytes) throws XMLStreamException {
+        return xmlInputFactory.createXMLStreamReader(new ByteArrayInputStream(bytes));
+    }
+
+    protected XMLStreamReader getXMLStreamReader(String xmlString, String charEncoding)
+            throws UnsupportedEncodingException, XMLStreamException {
+        byte[] messageBytes = xmlString.getBytes(charEncoding);
+        return getXMLStreamReader(messageBytes);
     }
 }
