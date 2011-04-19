@@ -1,5 +1,6 @@
 package org.isolution.nexus.domain;
 
+import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
  * Date: 26/01/11
  * Time: 9:23 AM
  */
+@Embeddable
 public class ServiceEndpointPk implements Serializable{
 
     @ManyToOne
