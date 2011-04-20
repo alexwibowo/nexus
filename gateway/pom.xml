@@ -217,5 +217,17 @@
             <artifactId>commons-collections</artifactId>
             <version>${apache.commons-collections.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${apache.commons-httpcomponent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>${apache.commons-httpclient.version}</version>
+        </dependency>
+
+
     </dependencies>
 </project>

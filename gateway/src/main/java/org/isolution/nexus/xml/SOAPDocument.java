@@ -1,14 +1,19 @@
 package org.isolution.nexus.xml;
 
+import com.google.common.base.Preconditions;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMNamespace;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
-import org.isolution.nexus.domain.Service;
 import org.isolution.nexus.domain.ServiceURI;
+import org.springframework.ws.soap.SoapMessage;
+import org.springframework.ws.soap.SoapVersion;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.io.IOException;
 import java.io.OutputStream;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A representation of a single SOAP message that will be read from a given {@link XMLStreamReader}.
@@ -21,8 +26,12 @@ public class SOAPDocument {
 
     private StAXOMBuilder stAXOMBuilder;
 
-    public SOAPDocument(XMLStreamReader reader) {
-        stAXOMBuilder = new StAXOMBuilder(reader);
+    private final SoapMessage rawSoapMessage;
+
+    public SOAPDocument(SoapMessage rawSoapMessage, XMLStreamReader soapPayloadReader) {
+        checkNotNull(rawSoapMessage);
+        this.stAXOMBuilder = new StAXOMBuilder(soapPayloadReader);
+        this.rawSoapMessage = rawSoapMessage;
     }
 
     /**
@@ -39,17 +48,26 @@ public class SOAPDocument {
         return new ServiceURI(namespaceURI, localName);
     }
 
+    public SoapMessage getRawSoapMessage() {
+        return rawSoapMessage;
+    }
+
     private OMElement getDocumentElement() {
         return stAXOMBuilder.getDocumentElement();
     }
 
     /**
-     * @param os {@link OutputStream} to write the SOAP document to
+     * @param os {@link OutputStream} to write the SOAP document payload to
      * @throws XMLStreamException exception that occurred during the XML serialization
      */
-    public void writeTo(OutputStream os)
+    public void writePayloadTo(OutputStream os)
             throws XMLStreamException {
         stAXOMBuilder.getDocument().serialize(os);
+    }
+
+    public void writeRawSoapMessageTo(OutputStream os)
+            throws IOException {
+        rawSoapMessage.writeTo(os);
     }
 
     /**

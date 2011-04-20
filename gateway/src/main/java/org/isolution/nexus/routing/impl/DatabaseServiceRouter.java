@@ -18,6 +18,7 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
  * Date: 30/12/10
  * Time: 8:45 PM
  */
+@org.springframework.stereotype.Service
 public class DatabaseServiceRouter implements ServiceRouter{
 
     private EndpointDAO endpointDAO;

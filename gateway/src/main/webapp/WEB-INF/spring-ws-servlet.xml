@@ -10,6 +10,11 @@
     <bean id="gatewayEndpoint" class="org.isolution.nexus.gateway.NexusGatewayEndpoint"/>
 
     <bean id="endpointMapping" class="org.springframework.ws.server.endpoint.mapping.UriEndpointMapping">
+        <property name="interceptors">
+            <list>
+                <bean class="org.isolution.springframework.ws.MessageContextHolderInterceptor"/>
+            </list>
+        </property>
         <property name="defaultEndpoint" ref="gatewayEndpoint"/>
     </bean>
 

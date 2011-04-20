@@ -1,6 +1,10 @@
 package org.isolution.nexus.xml;
 
 import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.ws.soap.SoapMessage;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -14,8 +18,12 @@ import java.io.UnsupportedEncodingException;
  * Date: 28/12/10
  * Time: 12:31 AM
  */
+@RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractXMLUnitTest {
     private XMLInputFactory xmlInputFactory;
+
+    @Mock
+    protected SoapMessage mockSoapMessage;
 
     @Before
     public void setup() {
