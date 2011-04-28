@@ -1,10 +1,12 @@
 package org.isolution.nexus.gateway;
 
 import org.apache.log4j.Logger;
+import org.isolution.nexus.domain.Endpoint;
 import org.isolution.nexus.domain.ServiceURI;
 import org.isolution.nexus.routing.ServiceRouter;
 import org.isolution.nexus.xml.SOAPDocument;
 import org.isolution.springframework.ws.MessageContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.server.endpoint.AbstractStaxStreamPayloadEndpoint;
 import org.springframework.ws.soap.SoapMessage;
@@ -22,7 +24,9 @@ public class NexusGatewayEndpoint extends AbstractStaxStreamPayloadEndpoint {
 
     private ServiceRouter serviceRouter;
 
-    public NexusGatewayEndpoint() {
+    @Autowired
+    public NexusGatewayEndpoint(ServiceRouter serviceRouter) {
+        this.serviceRouter = serviceRouter;
     }
 
     /**
@@ -34,8 +38,7 @@ public class NexusGatewayEndpoint extends AbstractStaxStreamPayloadEndpoint {
     protected void invokeInternal(XMLStreamReader payloadStreamReader, XMLStreamWriter payloadStreamWriter) throws Exception {
         SOAPDocument soapDocument = getSOAPDocument(payloadStreamReader);
         ServiceURI serviceURI = soapDocument.getServiceURI();
-//        Endpoint targetEndpoint = serviceRouter.findSingleActiveEndpoint(serviceURI.toString());
-
+        Endpoint targetEndpoint = serviceRouter.findSingleActiveEndpoint(serviceURI.toString());
     }
 
     private SOAPDocument getSOAPDocument(XMLStreamReader payloadStreamReader) {

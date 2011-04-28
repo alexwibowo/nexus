@@ -11,7 +11,9 @@ import org.isolution.nexus.routing.InactiveServiceException;
 import org.isolution.nexus.routing.NoActiveRouteException;
 import org.isolution.nexus.routing.ServiceNotFoundException;
 import org.isolution.nexus.routing.ServiceRouter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * User: agwibowo
@@ -25,11 +27,13 @@ public class DatabaseServiceRouter implements ServiceRouter{
 
     private ServiceDAO serviceDAO;
 
+    @Autowired
     public DatabaseServiceRouter(ServiceDAO serviceDAO, EndpointDAO endpointDAO) {
         this.endpointDAO = endpointDAO;
         this.serviceDAO = serviceDAO;
     }
 
+    @Transactional
     @Override
     public Endpoint findSingleActiveEndpoint(final String serviceURIString)
             throws ServiceNotFoundException, NoActiveRouteException, InactiveServiceException {
@@ -43,6 +47,7 @@ public class DatabaseServiceRouter implements ServiceRouter{
         throw NoActiveRouteException.noActiveEndpointForService(service);
     }
 
+    @Transactional
     @Override
     public Service findActiveService(final String serviceURIString)
             throws InactiveServiceException, ServiceNotFoundException {

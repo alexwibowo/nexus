@@ -22,8 +22,6 @@ import static com.google.common.base.Strings.isNullOrEmpty;
  * Date: 19/04/11
  * Time: 10:20 PM
  */
-@Component
-@Qualifier("http")
 public class HTTPInvoker implements Invoker {
     public static final Logger LOGGER = org.apache.log4j.Logger.getLogger(HTTPInvoker.class);
 

@@ -18,4 +18,8 @@ public class ServiceURITestFixture {
     public static ServiceURI getDefault() {
         return new ServiceURIBuilder().build();
     }
+
+    public static ServiceURI getNotRegisteredServiceURI() {
+        return new ServiceURIBuilder().withNamespace("http://www.unregistered.com").withLocalName("unregistered").build();
+    }
 }

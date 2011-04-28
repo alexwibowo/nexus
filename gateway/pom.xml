@@ -21,8 +21,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>8.4.7</version>
-            <scope>system</scope>
-            <systemPath>/home/agwibowo/bin/postgresql-9.0-801.jdbc4.jar</systemPath>
         </dependency>
         <!--
     Core utilities used by other modules.

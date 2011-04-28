@@ -29,6 +29,7 @@ public class HBServiceDAO extends AbstractHBDAO<Service> implements ServiceDAO {
         query.setString("localName", serviceURI.getLocalName());
         query.setString("namespace", serviceURI.getNamespace());
 
-        return DataAccessUtils.uniqueResult((List<Service>) query.list());
+        //noinspection unchecked
+        return DataAccessUtils.requiredUniqueResult((List<Service>) query.list());
     }
 }
