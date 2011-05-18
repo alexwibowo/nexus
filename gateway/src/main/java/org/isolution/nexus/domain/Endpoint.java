@@ -1,6 +1,10 @@
 package org.isolution.nexus.domain;
 
+import org.isolution.common.validation.ValidURIString;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +21,8 @@ public class Endpoint extends AbstractModel {
     /**
      * URI for the endpoint. i.e. how the endpoint is to be contactable
      */
+    @ValidURIString
+    @NotNull
     @Column(name = "uri")
     private String uri;
 
@@ -94,6 +100,14 @@ public class Endpoint extends AbstractModel {
     @Override
     public String toString() {
         return uri;
+    }
+
+    public URI toURI() {
+        try {
+            return new URI(uri);
+        } catch (Exception e) {
+            throw new IllegalStateException("Invalid URI has been used", e);
+        }
     }
 
     public boolean isActive() {

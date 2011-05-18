@@ -8,18 +8,16 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.transport.WebServiceConnection;
 import org.springframework.ws.transport.http.CommonsHttpMessageSender;
-import org.springframework.ws.transport.http.HttpUrlConnection;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -57,20 +55,22 @@ public class HTTPInvokerUnitTest {
         when(mockSender.createConnection(Mockito.<URI>any())).thenReturn(mockConnection);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void should_throw_exception_when_given_null_URL() {
-        new HTTPInvoker(null);
+        HTTPInvoker httpInvoker = new HTTPInvoker();
+        httpInvoker.setTarget(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void should_throw_exception_when_given_blank_URL() {
-        new HTTPInvoker("");
+    private URI getURI(String urlString) throws Exception {
+        URL url = new URL(urlString);
+        return url.toURI();
     }
 
     @Test
     public void should_establish_connection_with_the_given_URL() throws Exception {
         String url = "http://www.google.com";
-        HTTPInvoker httpInvoker = new HTTPInvoker(url);
+        HTTPInvoker httpInvoker = new HTTPInvoker();
+        httpInvoker.setTarget(getURI(url));
         httpInvoker.invoke(mockSOAPDocument);
 
         verifyNew(CommonsHttpMessageSender.class).withNoArguments();
@@ -86,7 +86,9 @@ public class HTTPInvokerUnitTest {
         when(mockSender.createConnection(Mockito.<URI>any())).thenThrow(ioex);
 
         try {
-            new HTTPInvoker("http://www.google.com").invoke(mockSOAPDocument);
+            HTTPInvoker httpInvoker = new HTTPInvoker();
+            httpInvoker.setTarget(getURI("http://www.google.com"));
+            httpInvoker.invoke(mockSOAPDocument);
             fail("Should have failed");
         } catch (IOException e) {
             assertThat(e, is(ioex));
@@ -95,7 +97,8 @@ public class HTTPInvokerUnitTest {
 
     @Test
     public void should_write_the_soapDocument_to_the_connection() throws Exception {
-        HTTPInvoker httpInvoker = new HTTPInvoker("http://www.google.com");
+        HTTPInvoker httpInvoker = new HTTPInvoker();
+        httpInvoker.setTarget(getURI("http://www.google.com"));
         httpInvoker.invoke(mockSOAPDocument);
 
         ArgumentCaptor<SoapMessage> captor = ArgumentCaptor.forClass(SoapMessage.class);
@@ -109,7 +112,9 @@ public class HTTPInvokerUnitTest {
         doThrow(ioex).when(mockConnection).send(Mockito.<WebServiceMessage>any());
 
         try {
-            new HTTPInvoker("http://www.google.com").invoke(mockSOAPDocument);
+            HTTPInvoker httpInvoker = new HTTPInvoker();
+            httpInvoker.setTarget(getURI("http://www.google.com"));
+            httpInvoker.invoke(mockSOAPDocument);
             fail("Should have failed");
         } catch (IOException e) {
             assertThat(e, is(ioex));
@@ -118,7 +123,8 @@ public class HTTPInvokerUnitTest {
 
     @Test
     public void should_close_connection_when_everything_went_ok() throws Exception{
-        HTTPInvoker httpInvoker = new HTTPInvoker("http://www.google.com");
+        HTTPInvoker httpInvoker = new HTTPInvoker();
+        httpInvoker.setTarget(getURI("http://www.google.com"));
         httpInvoker.invoke(mockSOAPDocument);
 
         verify(mockConnection, times(1)).close();
@@ -129,7 +135,9 @@ public class HTTPInvokerUnitTest {
         doThrow(new IOException()).when(mockConnection).send(Mockito.<WebServiceMessage>any());
 
         try {
-            new HTTPInvoker("http://www.google.com").invoke(mockSOAPDocument);
+            HTTPInvoker httpInvoker = new HTTPInvoker();
+            httpInvoker.setTarget(getURI("http://www.google.com"));
+            httpInvoker.invoke(mockSOAPDocument);
             fail("Should have failed");
         } catch (Throwable ignore) {
         }
@@ -144,7 +152,9 @@ public class HTTPInvokerUnitTest {
         when(mockConnection.getErrorMessage()).thenReturn(errorMessage);
 
         try {
-            new HTTPInvoker("http://www.google.com").invoke(mockSOAPDocument);
+            HTTPInvoker httpInvoker = new HTTPInvoker();
+            httpInvoker.setTarget(getURI("http://www.google.com"));
+            httpInvoker.invoke(mockSOAPDocument);
             fail("Should have failed");
         } catch (InvocationException ex) {
             assertThat(ex.getMessage(), is(errorMessage));
@@ -157,7 +167,9 @@ public class HTTPInvokerUnitTest {
         when(mockConnection.getErrorMessage()).thenReturn("Yeah. Thats an error mate");
 
         try {
-            new HTTPInvoker("http://www.google.com").invoke(mockSOAPDocument);
+            HTTPInvoker httpInvoker = new HTTPInvoker();
+            httpInvoker.setTarget(getURI("http://www.google.com"));
+            httpInvoker.invoke(mockSOAPDocument);
         } catch (Throwable ignore) {
         }
 

@@ -8,5 +8,6 @@ package org.isolution.nexus.domain;
  * Time: 9:23 PM
  */
 public enum EndpointProtocol {
-    HTTP
+    HTTP,
+    FTP
 }

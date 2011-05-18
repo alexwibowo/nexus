@@ -1,6 +1,7 @@
 package org.isolution.nexus.invoker.impl;
 
 import org.apache.log4j.Logger;
+import org.isolution.nexus.domain.EndpointProtocol;
 import org.isolution.nexus.invoker.InvocationException;
 import org.isolution.nexus.invoker.Invoker;
 import org.isolution.nexus.xml.SOAPDocument;
@@ -11,32 +12,32 @@ import org.springframework.ws.transport.http.CommonsHttpMessageSender;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Strings.isNullOrEmpty;
 
 /**
  * User: agwibowo
  * Date: 19/04/11
  * Time: 10:20 PM
  */
-public class HTTPInvoker implements Invoker {
+@Component
+@Qualifier("http")
+public class HTTPInvoker implements Invoker<URI> {
     public static final Logger LOGGER = org.apache.log4j.Logger.getLogger(HTTPInvoker.class);
 
-    private final URI uri;
+    private URI uri;
 
-    public HTTPInvoker(String urlString) {
-        checkArgument(!isNullOrEmpty(urlString), "URL must not be blank.");
-        try {
-            URL url = new URL(urlString);
-            this.uri = url.toURI();
-        } catch (Exception e) {
-            String message = String.format("URL [%1s] is not supported, and cant be converted to URI", urlString);
-            LOGGER.error(message, e);
-            throw new IllegalArgumentException(message, e);
-        }
+    private final EndpointProtocol supportedProtocol = EndpointProtocol.HTTP;
+
+    @Override
+    public boolean supports(EndpointProtocol protocol) {
+        return protocol.equals(supportedProtocol);
+    }
+
+    @Override
+    public void setTarget(URI target) {
+        checkNotNull(target);
+        this.uri = target;
     }
 
     @Override
