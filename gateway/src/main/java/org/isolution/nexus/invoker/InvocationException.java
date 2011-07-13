@@ -13,4 +13,8 @@ public class InvocationException extends WebServiceException {
         super(errorMessage);
     }
 
+    public InvocationException(String errorMessage, Throwable cause) {
+        super(errorMessage, cause);
+    }
+
 }

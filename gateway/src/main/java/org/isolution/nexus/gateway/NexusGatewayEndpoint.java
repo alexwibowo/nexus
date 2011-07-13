@@ -3,6 +3,8 @@ package org.isolution.nexus.gateway;
 import org.apache.log4j.Logger;
 import org.isolution.nexus.domain.Endpoint;
 import org.isolution.nexus.domain.ServiceURI;
+import org.isolution.nexus.invoker.Invoker;
+import org.isolution.nexus.invoker.InvokerResolver;
 import org.isolution.nexus.routing.ServiceRouter;
 import org.isolution.nexus.xml.SOAPDocument;
 import org.isolution.springframework.ws.MessageContextHolder;
@@ -13,6 +15,7 @@ import org.springframework.ws.soap.SoapMessage;
 
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
+import java.net.URI;
 
 /**
  * User: agwibowo
@@ -24,9 +27,12 @@ public class NexusGatewayEndpoint extends AbstractStaxStreamPayloadEndpoint {
 
     private ServiceRouter serviceRouter;
 
+    private InvokerResolver invokerResolver;
+
     @Autowired
-    public NexusGatewayEndpoint(ServiceRouter serviceRouter) {
+    public NexusGatewayEndpoint(ServiceRouter serviceRouter, InvokerResolver invokerResolver) {
         this.serviceRouter = serviceRouter;
+        this.invokerResolver = invokerResolver;
     }
 
     /**
@@ -38,7 +44,12 @@ public class NexusGatewayEndpoint extends AbstractStaxStreamPayloadEndpoint {
     protected void invokeInternal(XMLStreamReader payloadStreamReader, XMLStreamWriter payloadStreamWriter) throws Exception {
         SOAPDocument soapDocument = getSOAPDocument(payloadStreamReader);
         ServiceURI serviceURI = soapDocument.getServiceURI();
+
         Endpoint targetEndpoint = serviceRouter.findSingleActiveEndpoint(serviceURI.toString());
+
+        Invoker<URI> invoker = invokerResolver.resolveForProtocol(targetEndpoint.getProtocol());
+        invoker.setTarget(targetEndpoint.toURI());
+        invoker.invoke(soapDocument);
     }
 
     private SOAPDocument getSOAPDocument(XMLStreamReader payloadStreamReader) {

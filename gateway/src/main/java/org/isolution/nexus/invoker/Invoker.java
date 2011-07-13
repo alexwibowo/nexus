@@ -32,8 +32,9 @@ public interface Invoker<T> {
 
     /**
      * @param document  {@link SOAPDocument} to be sent to the endpoint
+     * @return document the response from the invocation
      * @throws IOException errors that occurred during the invocation
      */
-    void invoke(SOAPDocument document)
+    SOAPDocument invoke(SOAPDocument document)
             throws IOException;
 }

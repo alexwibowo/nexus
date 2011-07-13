@@ -25,4 +25,10 @@
     <!-- this is needed so that UriEndpointMapping uses AxioSoapMessageFactory internally -->
     <bean id="messageFactory" class="org.springframework.ws.soap.axiom.AxiomSoapMessageFactory"/>
     <!--<property name="payloadCaching" value="true"/>-->
+
+    <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+        <constructor-arg ref="messageFactory"/>
+    </bean>
+
+    <bean id="xmlInputFactory" class="javax.xml.stream.XMLInputFactory" factory-method="newInstance"/>
 </beans>
