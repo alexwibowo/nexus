@@ -1,5 +1,6 @@
 package org.isolution.nexus.invoker;
 
+import org.isolution.nexus.domain.Endpoint;
 import org.isolution.nexus.domain.EndpointProtocol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,12 @@ public class InvokerResolver {
 
     public InvokerResolver() {
         invokers=new HashSet<Invoker<URI>>();
+    }
+
+    public Invoker resolveForEndpoint(Endpoint endpoint) {
+        Invoker<URI> invoker = resolveForProtocol(endpoint.getProtocol());
+        invoker.setTarget(endpoint.toURI());
+        return invoker;
     }
 
     public Invoker<URI> resolveForProtocol(EndpointProtocol protocol) {

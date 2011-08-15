@@ -64,6 +64,10 @@ public class ServiceURI {
         return String.format("%1s:%2s", namespace, localName);
     }
 
+    public String getServiceURIString() {
+        return toString();
+    }
+
     public static ServiceURI parse(String serviceURIString) {
         int separator = serviceURIString.lastIndexOf(":");
         if (separator < 0 ) {

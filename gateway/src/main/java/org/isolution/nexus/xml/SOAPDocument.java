@@ -10,6 +10,7 @@ import org.springframework.ws.soap.SoapVersion;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -65,9 +66,9 @@ public class SOAPDocument {
         stAXOMBuilder.getDocument().serialize(os);
     }
 
-    public void writeRawSoapMessageTo(OutputStream os)
-            throws IOException {
-        rawSoapMessage.writeTo(os);
+    public void writeTo(XMLStreamWriter writer)
+            throws XMLStreamException {
+        stAXOMBuilder.getDocument().serialize(writer);
     }
 
     /**

@@ -29,10 +29,12 @@ public class NexusGatewayEndpoint extends AbstractStaxStreamPayloadEndpoint {
 
     private InvokerResolver invokerResolver;
 
-    @Autowired
-    public NexusGatewayEndpoint(ServiceRouter serviceRouter, InvokerResolver invokerResolver) {
+    private NexusGatewayEndpointHelper helper;
+
+    public NexusGatewayEndpoint(ServiceRouter serviceRouter, InvokerResolver invokerResolver, NexusGatewayEndpointHelper helper) {
         this.serviceRouter = serviceRouter;
         this.invokerResolver = invokerResolver;
+        this.helper = helper;
     }
 
     /**
@@ -42,19 +44,15 @@ public class NexusGatewayEndpoint extends AbstractStaxStreamPayloadEndpoint {
      */
     @Override
     protected void invokeInternal(XMLStreamReader payloadStreamReader, XMLStreamWriter payloadStreamWriter) throws Exception {
-        SOAPDocument soapDocument = getSOAPDocument(payloadStreamReader);
-        ServiceURI serviceURI = soapDocument.getServiceURI();
+        SOAPDocument request = helper.getSOAPDocument(MessageContextHolder.getMessageContext(), payloadStreamReader);
 
-        Endpoint targetEndpoint = serviceRouter.findSingleActiveEndpoint(serviceURI.toString());
+        ServiceURI serviceURI = request.getServiceURI();
 
-        Invoker<URI> invoker = invokerResolver.resolveForProtocol(targetEndpoint.getProtocol());
-        invoker.setTarget(targetEndpoint.toURI());
-        invoker.invoke(soapDocument);
-    }
+        Endpoint targetEndpoint = serviceRouter.findSingleActiveEndpoint(serviceURI.getServiceURIString());
 
-    private SOAPDocument getSOAPDocument(XMLStreamReader payloadStreamReader) {
-        MessageContext messageContext = MessageContextHolder.getMessageContext();
-        SoapMessage soapMessage = (SoapMessage) messageContext.getRequest();
-        return new SOAPDocument(soapMessage, payloadStreamReader);
+        Invoker invoker = invokerResolver.resolveForEndpoint(targetEndpoint);
+
+        SOAPDocument response = invoker.invoke(request);
+        response.writeTo(payloadStreamWriter);
     }
 }
