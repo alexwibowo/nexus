@@ -1,7 +1,5 @@
 package org.isolution.nexus.xml.soap;
 
-import org.apache.axiom.soap.SOAP11Version;
-import org.apache.axiom.soap.SOAP12Version;
 import org.apache.axiom.soap.SOAPProcessingException;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +23,7 @@ public class SOAPMessageVersionUnitTest {
 
     @Test
     public void should_work_with_soap11_string() throws Exception {
-        SOAPMessageSuite.Fixture soap11Fixture = SOAPMessageSuite.SOAP11Fixture;
+        SOAPMessageSuite.Fixture soap11Fixture = SOAPMessageSuite.SOAP11ResponseFixture;
         assertThat(soapMessageUtil.getSOAPVersion(soap11Fixture.getSOAPStr()),
                 is(soap11Fixture.getSOAPVersion()));
     }

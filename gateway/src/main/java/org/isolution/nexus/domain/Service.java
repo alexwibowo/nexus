@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +30,7 @@ public class Service extends AbstractModel {
     })
     private ServiceURI serviceURI;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.service", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.service", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ServiceEndpoint> serviceEndpoints = new ArrayList<ServiceEndpoint>();
 
     @Enumerated(value = EnumType.STRING)
@@ -94,7 +95,14 @@ public class Service extends AbstractModel {
         ServiceEndpoint se = new ServiceEndpoint();
         se.setEndpoint(endpoint);
         se.setService(this);
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        se.setCreateDateTime(now);
+        se.setUpdateDateTime(now);
         se.setStatus(status);
+        ServiceEndpointPk id1 = new ServiceEndpointPk();
+        id1.setEndpoint(endpoint);
+        id1.setService(this);
+        se.setId(id1);
         getServiceEndpoints().add(se);
     }
 

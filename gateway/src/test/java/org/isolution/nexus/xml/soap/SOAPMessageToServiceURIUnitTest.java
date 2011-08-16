@@ -30,7 +30,7 @@ public class SOAPMessageToServiceURIUnitTest extends AbstractSOAPMessageUnitTest
 
     @Test
     public void should_work_with_soap11_string() throws Exception {
-        SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11Fixture;
+        SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11ResponseFixture;
         Service service = soapMessageUtil.getServiceURI(fixture.getSOAPStr());
         assertThat(service, not(nullValue()));
         assertThat(service.getServiceURI().getNamespace(), is(fixture.getNamespace()));
@@ -39,7 +39,7 @@ public class SOAPMessageToServiceURIUnitTest extends AbstractSOAPMessageUnitTest
 
     @Test
     public void should_work_with_soap11_XMLStreamReader() throws Exception {
-        SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11Fixture;
+        SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11ResponseFixture;
         Service service = soapMessageUtil.getServiceURI(getXMLStreamReader(fixture.getSOAPStr()));
         assertThat(service, not(nullValue()));
         assertThat(service.getServiceURI().getNamespace(), is(fixture.getNamespace()));
@@ -48,7 +48,7 @@ public class SOAPMessageToServiceURIUnitTest extends AbstractSOAPMessageUnitTest
 
     @Test
     public void should_work_with_soap11_SOAPEnvelope() throws Exception {
-        SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11Fixture;
+        SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11ResponseFixture;
         Service service = soapMessageUtil.getServiceURI(getSOAPEnvelope(fixture.getSOAPStr()));
         assertThat(service, not(nullValue()));
         assertThat(service.getServiceURI().getNamespace(), is(fixture.getNamespace()));

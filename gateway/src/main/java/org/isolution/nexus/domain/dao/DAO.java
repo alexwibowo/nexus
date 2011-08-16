@@ -26,4 +26,6 @@ public interface DAO<M extends AbstractModel> {
      * @param value persistent object to be deleted
      */
     void delete(M value);
+
+    void deleteAll();
 }

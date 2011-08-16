@@ -1,6 +1,5 @@
 package org.isolution.nexus.routing.impl;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.isolution.nexus.domain.*;
 import org.isolution.nexus.domain.dao.EndpointDAO;
 import org.isolution.nexus.domain.dao.ServiceDAO;
@@ -9,18 +8,10 @@ import org.isolution.nexus.routing.NoActiveRouteException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
-import java.util.Collections;
-import java.util.List;
 
 import static java.util.Collections.reverse;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.fail;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;

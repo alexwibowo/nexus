@@ -1,5 +1,6 @@
 package org.isolution.nexus.domain.dao;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.isolution.nexus.domain.AbstractModel;
@@ -35,8 +36,7 @@ public abstract class AbstractHBDAO<M  extends AbstractModel> implements DAO<M>{
             value.setCreateDateTime(currentTimestamp);
         }
         value.setUpdateDateTime(currentTimestamp);
-        getCurrentSession().merge(value);
-        return value;
+        return (M) getCurrentSession().merge(value);
     }
 
     @Override
@@ -48,6 +48,12 @@ public abstract class AbstractHBDAO<M  extends AbstractModel> implements DAO<M>{
     @Override
     public void delete(M value) {
         getCurrentSession().delete(value);
+    }
+
+    @Override
+    public void deleteAll() {
+        Query query = getCurrentSession().createQuery("delete from " + clazz.getName());
+        query.executeUpdate();
     }
 
     protected Session getCurrentSession() {

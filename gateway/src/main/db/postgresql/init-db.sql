@@ -55,11 +55,12 @@ CREATE TABLE service (
 );
 
 CREATE TABLE service_endpoint(
-    service_id                                  NUMERIC(32,0) NOT NULL REFERENCES service(id),
-    endpoint_id                             NUMERIC(32,0) NOT NULL REFERENCES endpoint(id),
+    service_id                                  NUMERIC(32,0) NOT NULL REFERENCES service(id) PRIMARY KEY,
+    endpoint_id                             NUMERIC(32,0) NOT NULL REFERENCES endpoint(id) PRIMARY KEY,
     status                                        VARCHAR(20)  NOT NULL,
     created_date_time               TIMESTAMP    with time zone    NOT NULL,
-    updated_date_time             TIMESTAMP     with time zone    NOT NULL
+    updated_date_time             TIMESTAMP     with time zone    NOT NULL,
+    UNIQUE(service_id, endpoint_id)
 );
 
 

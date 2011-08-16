@@ -1,16 +1,26 @@
 package org.isolution.nexus.xml.soap;
 
+import org.apache.axiom.om.OMDocument;
 import org.apache.axiom.om.OMNamespace;
 import org.apache.axiom.om.util.StAXUtils;
 import org.apache.axiom.soap.SOAPEnvelope;
+import org.apache.axiom.soap.SOAPMessage;
 import org.apache.axiom.soap.SOAPVersion;
 import org.apache.axiom.soap.impl.builder.StAXSOAPModelBuilder;
 import org.apache.commons.lang.StringUtils;
 import org.isolution.nexus.domain.Service;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+import sun.rmi.transport.ObjectTable;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.SOAPException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.StringReader;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -113,6 +123,26 @@ public class SOAPMessageUtil {
         SOAPEnvelope soapEnvelope = getSOAPEnvelope(soapMessageStr);
         return soapEnvelope.getVersion();
     }
+
+    public SOAPMessage getSOAPMessage(String soapMessageStr) throws XMLStreamException {
+        checkArgument(!StringUtils.isBlank(soapMessageStr), "SOAP message must be supplied");
+        XMLStreamReader xmlStreamReader = StAXUtils.createXMLStreamReader(new StringReader(soapMessageStr));
+        StAXSOAPModelBuilder stAXSOAPModelBuilder = new StAXSOAPModelBuilder(xmlStreamReader);
+        return stAXSOAPModelBuilder.getSoapMessage();
+    }
+
+    public Document getSOAPDocument(String soapMessageStr) throws XMLStreamException, IOException, SAXException, ParserConfigurationException {
+        checkArgument(!StringUtils.isBlank(soapMessageStr), "SOAP message must be supplied");
+//        XMLStreamReader xmlStreamReader = StAXUtils.createXMLStreamReader(new StringReader(soapMessageStr));
+
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document parse = documentBuilder.parse(new ByteArrayInputStream(soapMessageStr.getBytes()));
+//        StAXSOAPModelBuilder stAXSOAPModelBuilder = new StAXSOAPModelBuilder(xmlStreamReader);
+        return parse;
+//        return stAXSOAPModelBuilder.getDocument();
+    }
+
+
 
     private SOAPEnvelope getSOAPEnvelope(String soapMessageStr) throws XMLStreamException {
         checkArgument(!StringUtils.isBlank(soapMessageStr), "SOAP message must be supplied");

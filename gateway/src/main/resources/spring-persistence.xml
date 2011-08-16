@@ -44,6 +44,11 @@
                 <value>org.isolution.nexus.domain.ServiceEndpoint</value>
             </list>
         </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show.sql">true</prop>
+            </props>
+        </property>
     </bean>
 
 

@@ -77,7 +77,7 @@ public class HTTPInvokerUnitTest {
         when(mockSOAPDocument.getRawSoapMessage().getPayloadSource()).thenReturn(mockSource);
         when(mockSender.createConnection(Mockito.<URI>any())).thenReturn(mockConnection);
 
-        httpInvoker = new HTTPInvoker(mockWebServiceTemplate, mockSOAPDocumentFactory);
+        httpInvoker = new HTTPInvoker(mockWebServiceTemplate, mockSOAPDocumentFactory, null);
         httpInvoker.setTarget(getURI("http://www.kubi.com"));
     }
 

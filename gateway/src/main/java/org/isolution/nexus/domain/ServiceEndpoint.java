@@ -1,6 +1,7 @@
 package org.isolution.nexus.domain;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 
 /**
@@ -28,6 +29,14 @@ public class ServiceEndpoint {
    @Enumerated(value=EnumType.STRING)
     @Column(name="status")
    private Status status=Status.ACTIVE;
+
+
+    @Column(name = "created_date_time")
+    protected Timestamp createDateTime;
+
+    @Column(name = "updated_date_time")
+    protected Timestamp updateDateTime;
+
 
     public ServiceEndpointPk getId() {
         return id;
@@ -61,6 +70,22 @@ public class ServiceEndpoint {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Timestamp getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(Timestamp createDateTime) {
+        this.createDateTime = createDateTime;
+    }
+
+    public Timestamp getUpdateDateTime() {
+        return updateDateTime;
+    }
+
+    public void setUpdateDateTime(Timestamp updateDateTime) {
+        this.updateDateTime = updateDateTime;
     }
 
     public void activate() {

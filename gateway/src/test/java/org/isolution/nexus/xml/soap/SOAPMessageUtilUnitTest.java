@@ -31,21 +31,21 @@ public class SOAPMessageUtilUnitTest extends AbstractSOAPMessageUnitTest{
 
     @Test
     public void should_work_with_soap11_string() throws Exception {
-        SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11Fixture;
+        SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11ResponseFixture;
         assertThat(soapMessageUtil.getNamespace(fixture.getSOAPStr()),
                 is(fixture.getNamespace()));
     }
 
     @Test
     public void should_work_with_soap11_XMLStreamReader() throws Exception {
-        SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11Fixture;
+        SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11ResponseFixture;
         assertThat(soapMessageUtil.getNamespace(getXMLStreamReader(fixture.getSOAPStr())),
                 is(fixture.getNamespace()));
     }
 
     @Test
     public void should_work_with_soap11_SOAPEnvelope() throws Exception {
-        SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11Fixture;
+        SOAPMessageSuite.Fixture fixture = SOAPMessageSuite.SOAP11ResponseFixture;
         assertThat(soapMessageUtil.getNamespace(getSOAPEnvelope(fixture.getSOAPStr())),
                 is(fixture.getNamespace()));
     }

@@ -21,7 +21,7 @@ import org.junit.runners.Suite;
 })
 public class SOAPMessageSuite {
 
-    static class Fixture {
+    public static class Fixture {
         String soapStr;
         String namespace;
         String localName;
@@ -51,16 +51,28 @@ public class SOAPMessageSuite {
         }
     }
 
-    static final String emptySOAPBody = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\""
+    public static final String emptySOAPBody = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\""
             + "     xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
             + "     xmlns:res=\"http://www.alex-wibowo.com\" "
             + "     xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
             + "     <SOAP-ENV:Body></SOAP-ENV:Body>"
             + "</SOAP-ENV:Envelope>";
-    static final Fixture emptySOAPBodyFixture = new Fixture(emptySOAPBody, null, null, SOAP12Version.getSingleton());
+    public static final Fixture emptySOAPBodyFixture = new Fixture(emptySOAPBody, null, null, SOAP12Version.getSingleton());
 
 
-    static final String soap11Message = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"" +
+    public static final String soap11RequestMessage = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"" +
+            "       SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"" +
+            "       xmlns:res=\"http://www.soap11.com\"" +
+            "       xmlns:xsi=\"http://www.w3.org/1999/XMLSchema-instance\"" +
+            "       xmlns:xsd=\"http://www.w3.org/1999/XMLSchema\">" +
+            "           <SOAP-ENV:Body>\n" +
+            "               <res:GetLastTradePriceRequest/>\n" +
+            "           </SOAP-ENV:Body>\n" +
+            "       </SOAP-ENV:Envelope>";
+    public  static final Fixture SOAP11RequestFixture = new Fixture(soap11RequestMessage, "http://www.soap11.com", "GetLastTradePriceRequest", SOAP11Version.getSingleton());
+
+
+    public static final String soap11ResponseMessage = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"" +
             "       SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"" +
             "       xmlns:res=\"http://www.soap11.com\"" +
             "       xmlns:xsi=\"http://www.w3.org/1999/XMLSchema-instance\"" +
@@ -71,9 +83,9 @@ public class SOAPMessageSuite {
             "               </res:GetLastTradePriceResponse>\n" +
             "           </SOAP-ENV:Body>\n" +
             "       </SOAP-ENV:Envelope>";
-    static final Fixture SOAP11Fixture = new Fixture(soap11Message, "http://www.soap11.com", "GetLastTradePriceResponse", SOAP11Version.getSingleton());
+    public  static final Fixture SOAP11ResponseFixture = new Fixture(soap11ResponseMessage, "http://www.soap11.com", "GetLastTradePriceResponse", SOAP11Version.getSingleton());
 
-    static final String soap12Message = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" "
+    public static final String soap12Message = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" "
             + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
             + "xmlns:res=\"http://www.soap12.com\" "
             + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
@@ -83,9 +95,9 @@ public class SOAPMessageSuite {
             + "</res:result>"
             + "</SOAP-ENV:Body>"
             + "</SOAP-ENV:Envelope>";
-    static final Fixture SOAP12Fixture = new Fixture(soap12Message, "http://www.soap12.com", "result", SOAP12Version.getSingleton());
+    public static final Fixture SOAP12Fixture = new Fixture(soap12Message, "http://www.soap12.com", "result", SOAP12Version.getSingleton());
 
-    static final String soap12WithMultipleChild = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" "
+    public static final String soap12WithMultipleChild = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" "
             + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
             + "xmlns:res=\"http://www.soap12.com\" "
             + "xmlns:res2=\"http://www.soap12-2.com\" "
@@ -99,10 +111,10 @@ public class SOAPMessageSuite {
             + "         </res2:result2>"
             + "     </SOAP-ENV:Body>"
             + "</SOAP-ENV:Envelope>";
-    static final Fixture SOAP12WithMultipleChildFixture = new Fixture(soap12WithMultipleChild, "http://www.soap12.com", "result", SOAP12Version.getSingleton());
+    public static final Fixture SOAP12WithMultipleChildFixture = new Fixture(soap12WithMultipleChild, "http://www.soap12.com", "result", SOAP12Version.getSingleton());
 
 
-    static final String soap11WithMultipleChild = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"" +
+    public static final String soap11WithMultipleChild = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"" +
             "       SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"" +
             "       xmlns:res=\"http://www.soap11.com\" " +
             "       xmlns:res2=\"http://www.soap11-2.com\" " +
@@ -117,9 +129,9 @@ public class SOAPMessageSuite {
             "               </res2:GetLastTradePriceResponse>\n" +
             "           </SOAP-ENV:Body>\n" +
             "       </SOAP-ENV:Envelope>";
-    static final Fixture SOAP11WithMultipleChildFixture = new Fixture(soap11WithMultipleChild, "http://www.soap11.com", "GetLastTradePriceResponse", SOAP11Version.getSingleton());
+    public static final Fixture SOAP11WithMultipleChildFixture = new Fixture(soap11WithMultipleChild, "http://www.soap11.com", "GetLastTradePriceResponse", SOAP11Version.getSingleton());
 
-    static final String invalidSOAP11Message = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"" +
+    public static final String invalidSOAP11Message = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"" +
             "       SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"" +
             "       xmlns:res=\"http://www.soap11.com\"" +
             "       xmlns:xsi=\"http://www.w3.org/1999/XMLSchema-instance\"" +
@@ -130,11 +142,11 @@ public class SOAPMessageSuite {
             "               </res:GetLastTradePriceResponse>\n" +
             "           </SOAP-ENV:Body2>\n" +
             "       </SOAP-ENV:Envelope>";
-    static final Fixture invalidSOAP11Fixture = new Fixture(invalidSOAP11Message, null, null, SOAP11Version.getSingleton());
+    public static final Fixture invalidSOAP11Fixture = new Fixture(invalidSOAP11Message, null, null, SOAP11Version.getSingleton());
 
 
 
-    static final String invalidSOAP12Message = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" "
+    public static final String invalidSOAP12Message = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" "
             + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
             + "xmlns:res=\"http://www.soap12.com\" "
             + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
@@ -144,9 +156,9 @@ public class SOAPMessageSuite {
             + "</res:result>"
             + "</SOAP-ENV:Body2>"
             + "</SOAP-ENV:Envelope>";
-    static final Fixture invalidSOAP12Fixture = new Fixture(invalidSOAP12Message, null, null,SOAP12Version.getSingleton());
+    public static final Fixture invalidSOAP12Fixture = new Fixture(invalidSOAP12Message, null, null,SOAP12Version.getSingleton());
 
-    static final String nonWellFormedSOAPMessage = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" "
+    public static final String nonWellFormedSOAPMessage = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" "
             + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
             + "xmlns:res=\"http://www.soap12.com\" "
             + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
@@ -155,9 +167,9 @@ public class SOAPMessageSuite {
             + "<message xsi:type=\"xsd:string\">Hello World</message>"
             + "</res:result>"
             + "</SOAP-ENV:Envelope>";
-    static final Fixture nonWellFormedSOAPMessageFixture = new Fixture(nonWellFormedSOAPMessage, null, null, SOAP12Version.getSingleton());
+    public static final Fixture nonWellFormedSOAPMessageFixture = new Fixture(nonWellFormedSOAPMessage, null, null, SOAP12Version.getSingleton());
 
-    static final String nonWellFormedSOAPBodyContentMessage =   "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" "
+    public static final String nonWellFormedSOAPBodyContentMessage =   "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://www.w3.org/2003/05/soap-envelope\" "
             + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
             + "xmlns:res=\"http://www.soap12.com\" "
             + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
@@ -166,13 +178,13 @@ public class SOAPMessageSuite {
             + "<message xsi:type=\"xsd:string\">Hello World</message>"
             + "</SOAP-ENV:Body>"
             + "</SOAP-ENV:Envelope>";
-    static final Fixture nonWellFormedSOAPBodyContentFixture = new Fixture(nonWellFormedSOAPBodyContentMessage, null, null,SOAP12Version.getSingleton());
+    public static final Fixture nonWellFormedSOAPBodyContentFixture = new Fixture(nonWellFormedSOAPBodyContentMessage, null, null,SOAP12Version.getSingleton());
 
 
-    static final String nonSOAPMessageWithoutNamespace = "<message>HelloWorld</message>";
-    static final Fixture nonSOAPMessageWithoutNamespaceFixture = new Fixture(nonSOAPMessageWithoutNamespace, null, null, null);
+    public static final String nonSOAPMessageWithoutNamespace = "<message>HelloWorld</message>";
+    public static final Fixture nonSOAPMessageWithoutNamespaceFixture = new Fixture(nonSOAPMessageWithoutNamespace, null, null, null);
 
-    static final String nonSOAPMessageWithNamespace = "<message xmlns=\"http://www.alex-wibowo.com\">HelloWorld</message>";
-    static final Fixture nonSOAPMessageWithNamespaceFixture = new Fixture(nonSOAPMessageWithNamespace, null, null, null);
+    public static final String nonSOAPMessageWithNamespace = "<message xmlns=\"http://www.alex-wibowo.com\">HelloWorld</message>";
+    public static final Fixture nonSOAPMessageWithNamespaceFixture = new Fixture(nonSOAPMessageWithNamespace, null, null, null);
 
 }
