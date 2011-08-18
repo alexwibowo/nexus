@@ -1,7 +1,9 @@
 # NEXUS
 
-Lightweight Enterprise Service Bus
+Enterprise Service Bus
+
+Copyright © 2010 - Alex Wibowo.
 
 # Description
 
-Nexus is a Enterprise Service Bus written in Java. The work is still in progress.
+Nexus is a lightweight Enterprise Service. At its core, Nexus routes messages based on a set of configuration.
