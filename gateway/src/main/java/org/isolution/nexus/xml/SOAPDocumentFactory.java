@@ -16,7 +16,7 @@ import java.io.IOException;
 import static org.apache.commons.io.IOUtils.toInputStream;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 13/07/11
  * Time: 9:47 PM
  */
@@ -32,13 +32,20 @@ public class SOAPDocumentFactory {
         this.xmlInputFactory = xmlInputFactory;
     }
 
-    public SOAPDocument createSOAPResponse(final String responseString)
+    public SOAPDocument createSOAPDocument(final String soapString)
             throws IOException, XMLStreamException, SAXException, ParserConfigurationException {
-        Document soapDocument = new SOAPMessageUtil().getSOAPDocument(responseString);
-        SoapMessage responseMessage = soapMessageFactory.createWebServiceMessage();
-        responseMessage.setDocument(soapDocument);
+        SoapMessage soapMessage = createSoapMessage(soapString);
+        return new SOAPDocument(soapMessage, xmlInputFactory.createXMLStreamReader(toInputStream(soapString)));
+    }
 
-//        SoapMessage responseMessage = soapMessageFactory.createWebServiceMessage(toInputStream(responseString));
-        return new SOAPDocument(responseMessage, xmlInputFactory.createXMLStreamReader(toInputStream(responseString)));
+    /**
+     * Create {@link SoapMessage} from the given SOAP String.
+     */
+    public SoapMessage createSoapMessage(String soapStr)
+            throws IOException, SAXException, ParserConfigurationException {
+        SoapMessage soapRequest = soapMessageFactory.createWebServiceMessage();
+        Document soapDocument = new SOAPMessageUtil().createSoapDomDocument(soapStr);
+        soapRequest.setDocument(soapDocument);
+        return soapRequest;
     }
 }

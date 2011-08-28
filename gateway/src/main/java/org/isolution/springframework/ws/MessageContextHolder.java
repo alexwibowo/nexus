@@ -26,7 +26,7 @@ import org.springframework.ws.context.MessageContext;
  *  MessageContext from anywhere in our code.
  *
  *
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 20/04/11
  * Time: 10:34 PM
  */

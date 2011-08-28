@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 12/02/11
  * Time: 12:50 AM
  */

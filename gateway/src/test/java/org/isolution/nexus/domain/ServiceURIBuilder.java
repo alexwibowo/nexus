@@ -1,7 +1,7 @@
 package org.isolution.nexus.domain;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 27/01/11
  * Time: 9:57 PM
  */

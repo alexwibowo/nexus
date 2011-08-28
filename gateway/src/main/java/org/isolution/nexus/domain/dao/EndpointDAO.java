@@ -3,7 +3,7 @@ package org.isolution.nexus.domain.dao;
 import org.isolution.nexus.domain.Endpoint;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 8/01/11
  * Time: 2:39 AM
  */

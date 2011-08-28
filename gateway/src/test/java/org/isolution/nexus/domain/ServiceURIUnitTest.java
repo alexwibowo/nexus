@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 27/01/11
  * Time: 11:22 PM
  */

@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 8/01/11
  * Time: 2:30 AM
  */

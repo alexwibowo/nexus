@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 30/12/10
  * Time: 8:58 PM
  */

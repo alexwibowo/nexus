@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
 /**
  * Test suite for operations around SOAP Messages
  * <p/>
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 24/12/10
  * Time: 3:46 PM
  */
@@ -70,6 +70,10 @@ public class SOAPMessageSuite {
             "           </SOAP-ENV:Body>\n" +
             "       </SOAP-ENV:Envelope>";
     public  static final Fixture SOAP11RequestFixture = new Fixture(soap11RequestMessage, "http://www.soap11.com", "GetLastTradePriceRequest", SOAP11Version.getSingleton());
+
+    public static void main(String[] args) {
+        System.out.println(soap11RequestMessage);
+    }
 
 
     public static final String soap11ResponseMessage = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"" +

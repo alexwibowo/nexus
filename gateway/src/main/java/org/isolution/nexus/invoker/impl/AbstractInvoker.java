@@ -7,7 +7,7 @@ import org.isolution.nexus.xml.SOAPDocument;
 import java.io.IOException;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 11/07/11
  * Time: 10:19 PM
  */

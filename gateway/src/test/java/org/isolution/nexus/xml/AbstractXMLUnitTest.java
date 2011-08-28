@@ -14,7 +14,7 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 28/12/10
  * Time: 12:31 AM
  */

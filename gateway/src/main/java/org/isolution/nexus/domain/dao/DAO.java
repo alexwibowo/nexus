@@ -2,8 +2,10 @@ package org.isolution.nexus.domain.dao;
 
 import org.isolution.nexus.domain.AbstractModel;
 
+import java.util.List;
+
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 30/12/10
  * Time: 9:32 PM
  */
@@ -27,5 +29,13 @@ public interface DAO<M extends AbstractModel> {
      */
     void delete(M value);
 
+    /**
+     * Delete all instances of {@link M}
+     */
     void deleteAll();
+
+    /**
+     * @return all instances of {@link M}
+     */
+    List<M> loadAll();
 }

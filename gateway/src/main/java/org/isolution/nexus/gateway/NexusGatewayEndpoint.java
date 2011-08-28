@@ -1,40 +1,33 @@
 package org.isolution.nexus.gateway;
 
-import org.apache.log4j.Logger;
-import org.isolution.nexus.domain.Endpoint;
-import org.isolution.nexus.domain.ServiceURI;
-import org.isolution.nexus.invoker.Invoker;
-import org.isolution.nexus.invoker.InvokerResolver;
-import org.isolution.nexus.routing.ServiceRouter;
+import org.isolution.nexus.invoker.InvokerController;
 import org.isolution.nexus.xml.SOAPDocument;
-import org.isolution.springframework.ws.MessageContextHolder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ws.context.MessageContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ws.server.endpoint.AbstractStaxStreamPayloadEndpoint;
-import org.springframework.ws.soap.SoapMessage;
 
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
-import java.net.URI;
+
+import static org.isolution.springframework.ws.MessageContextHolder.getMessageContext;
 
 /**
- * User: agwibowo
+ * The main endpoint - this is where everything starts. Receives SOAP messages & respond to them.
+ * <p/>
+ * User: Alex Wibowo
  * Date: 26/12/10
  * Time: 11:21 PM
  */
 public class NexusGatewayEndpoint extends AbstractStaxStreamPayloadEndpoint {
-    public static final Logger LOGGER = Logger.getLogger(NexusGatewayEndpoint.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(NexusGatewayEndpoint.class);
 
-    private ServiceRouter serviceRouter;
-
-    private InvokerResolver invokerResolver;
+    private InvokerController controller;
 
     private NexusGatewayEndpointHelper helper;
 
-    public NexusGatewayEndpoint(ServiceRouter serviceRouter, InvokerResolver invokerResolver, NexusGatewayEndpointHelper helper) {
-        this.serviceRouter = serviceRouter;
-        this.invokerResolver = invokerResolver;
+    public NexusGatewayEndpoint(InvokerController controller, NexusGatewayEndpointHelper helper) {
         this.helper = helper;
+        this.controller = controller;
     }
 
     /**
@@ -43,16 +36,17 @@ public class NexusGatewayEndpoint extends AbstractStaxStreamPayloadEndpoint {
      * @throws Exception
      */
     @Override
-    protected void invokeInternal(XMLStreamReader payloadStreamReader, XMLStreamWriter payloadStreamWriter) throws Exception {
-        SOAPDocument request = helper.getSOAPDocument(MessageContextHolder.getMessageContext(), payloadStreamReader);
+    protected void invokeInternal(XMLStreamReader payloadStreamReader, XMLStreamWriter payloadStreamWriter)
+            throws Exception {
+        LOGGER.info("Received message");
 
-        ServiceURI serviceURI = request.getServiceURI();
+        SOAPDocument request = helper.getSOAPDocument(getMessageContext(), payloadStreamReader);
+        LOGGER.debug("Request is {}", request);
 
-        Endpoint targetEndpoint = serviceRouter.findSingleActiveEndpoint(serviceURI.getServiceURIString());
+        SOAPDocument response = controller.invoke(request);
+        LOGGER.debug("Response is {}", response);
 
-        Invoker invoker = invokerResolver.resolveForEndpoint(targetEndpoint);
-
-        SOAPDocument response = invoker.invoke(request);
-        response.writeTo(payloadStreamWriter);
+        getMessageContext().setResponse(response.getRawSoapMessage());
+        LOGGER.info("Finished handling message");
     }
 }

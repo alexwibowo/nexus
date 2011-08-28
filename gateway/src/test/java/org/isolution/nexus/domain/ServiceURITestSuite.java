@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 26/12/10
  * Time: 4:01 PM
  */

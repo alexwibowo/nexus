@@ -1,11 +1,9 @@
 package org.isolution.nexus.routing.impl;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.isolution.nexus.domain.Endpoint;
 import org.isolution.nexus.domain.Service;
 import org.isolution.nexus.domain.ServiceEndpoint;
-import org.isolution.nexus.domain.ServiceURI;
 import org.isolution.nexus.domain.dao.EndpointDAO;
 import org.isolution.nexus.domain.dao.ServiceDAO;
 import org.isolution.nexus.routing.InactiveServiceException;
@@ -20,7 +18,7 @@ import static java.lang.String.format;
 
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 30/12/10
  * Time: 8:45 PM
  */

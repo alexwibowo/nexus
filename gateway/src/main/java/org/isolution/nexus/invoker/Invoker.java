@@ -12,7 +12,7 @@ import java.net.URI;
  * Implementor of this interface will need to make sure that the protocol
  * that it claims to support is compatible with the possible values of &lt;T&gt;
  *
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 19/04/11
  * Time: 10:19 PM
  */

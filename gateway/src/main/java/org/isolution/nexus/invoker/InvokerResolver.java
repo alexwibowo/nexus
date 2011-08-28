@@ -14,7 +14,7 @@ import static com.google.common.collect.Iterators.find;
 import static org.isolution.nexus.invoker.InvokerPredicate.thatSupports;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 30/04/11
  * Time: 6:26 PM
  */

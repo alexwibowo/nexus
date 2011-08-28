@@ -8,7 +8,7 @@ import org.springframework.ws.soap.SoapMessage;
 import javax.xml.stream.XMLStreamReader;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 12/08/11
  * Time: 12:03 PM
  */

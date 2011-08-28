@@ -15,7 +15,7 @@ import org.springframework.ws.server.EndpointInterceptor;
 *               </property>
 *           </bean
  *  </pre>
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 20/04/11
  * Time: 10:37 PM
  */

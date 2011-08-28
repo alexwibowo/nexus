@@ -9,6 +9,8 @@ import org.apache.axiom.soap.SOAPVersion;
 import org.apache.axiom.soap.impl.builder.StAXSOAPModelBuilder;
 import org.apache.commons.lang.StringUtils;
 import org.isolution.nexus.domain.Service;
+import org.springframework.ws.WebServiceMessage;
+import org.springframework.ws.soap.SoapMessage;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import sun.rmi.transport.ObjectTable;
@@ -20,6 +22,7 @@ import javax.xml.soap.SOAPException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -28,7 +31,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * A collection of utility methods for operations around SOAP message
  * <p/>
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 14/12/10
  * Time: 10:42 PM
  */
@@ -131,18 +134,18 @@ public class SOAPMessageUtil {
         return stAXSOAPModelBuilder.getSoapMessage();
     }
 
-    public Document getSOAPDocument(String soapMessageStr) throws XMLStreamException, IOException, SAXException, ParserConfigurationException {
+    public Document createSoapDomDocument(String soapMessageStr) throws ParserConfigurationException, IOException, SAXException {
         checkArgument(!StringUtils.isBlank(soapMessageStr), "SOAP message must be supplied");
-//        XMLStreamReader xmlStreamReader = StAXUtils.createXMLStreamReader(new StringReader(soapMessageStr));
-
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document parse = documentBuilder.parse(new ByteArrayInputStream(soapMessageStr.getBytes()));
-//        StAXSOAPModelBuilder stAXSOAPModelBuilder = new StAXSOAPModelBuilder(xmlStreamReader);
-        return parse;
-//        return stAXSOAPModelBuilder.getDocument();
+        return documentBuilder.parse(new ByteArrayInputStream(soapMessageStr.getBytes()));
     }
 
 
+    public String convertToString(WebServiceMessage message) throws IOException {
+        ByteArrayOutputStream actualOutputStream = new ByteArrayOutputStream();
+        message.writeTo(actualOutputStream);
+        return message.toString();
+    }
 
     private SOAPEnvelope getSOAPEnvelope(String soapMessageStr) throws XMLStreamException {
         checkArgument(!StringUtils.isBlank(soapMessageStr), "SOAP message must be supplied");

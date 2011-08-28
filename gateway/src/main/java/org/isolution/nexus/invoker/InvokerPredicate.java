@@ -4,7 +4,7 @@ import com.google.common.base.Predicate;
 import org.isolution.nexus.domain.EndpointProtocol;
 
 /**
-* User: agwibowo
+* User: Alex Wibowo
 * Date: 11/07/11
 * Time: 9:55 PM
 */

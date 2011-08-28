@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 21/12/10
  * Time: 12:09 AM
  */

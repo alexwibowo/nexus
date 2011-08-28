@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 28/12/10
  * Time: 12:28 AM
  */

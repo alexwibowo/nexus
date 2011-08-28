@@ -9,7 +9,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 27/12/10
  * Time: 10:19 PM
  */

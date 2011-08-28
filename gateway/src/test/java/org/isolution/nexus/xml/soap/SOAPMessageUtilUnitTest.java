@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 18/12/10
  * Time: 11:41 PM
  */

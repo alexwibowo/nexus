@@ -1,15 +1,19 @@
 package org.isolution.nexus.domain;
 
+import org.hibernate.annotations.*;
 import org.isolution.common.validation.ValidURIString;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 30/12/10
  * Time: 8:37 PM
  */
@@ -36,7 +40,7 @@ public class Endpoint extends AbstractModel {
     /**
      * List of {@link ServiceEndpoint} associated with this endpoint
      */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.endpoint", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.endpoint", orphanRemoval = true,  cascade = CascadeType.ALL)
     private List<ServiceEndpoint> serviceEndpoints;
 
 

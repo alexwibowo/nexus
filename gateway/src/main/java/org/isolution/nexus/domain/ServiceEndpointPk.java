@@ -5,7 +5,7 @@ import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 26/01/11
  * Time: 9:23 AM
  */

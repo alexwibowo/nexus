@@ -239,6 +239,18 @@
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
                 <version>1.1.2</version>
+                <!--<configuration>-->
+                    <!--<deployables>-->
+                        <!--<deployable>-->
+                            <!--<groupId>org.isolution</groupId>-->
+                            <!--<artifactId>nexus-gateway</artifactId>-->
+                            <!--<type>war</type>-->
+                            <!--<properties>-->
+                                <!--<context>nexus-gateway</context>-->
+                            <!--</properties>-->
+                        <!--</deployable>-->
+                    <!--</deployables>-->
+                <!--</configuration>-->
                 <executions>
                     <execution>
                         <id>start-container</id>

@@ -7,7 +7,7 @@ import org.isolution.nexus.xml.AbstractXMLUnitTest;
 import javax.xml.stream.XMLStreamException;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 28/12/10
  * Time: 12:09 AM
  */

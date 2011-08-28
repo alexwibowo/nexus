@@ -5,7 +5,7 @@ import org.isolution.nexus.framework.NexusException;
 import java.text.MessageFormat;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 5/02/11
  * Time: 5:47 PM
  */

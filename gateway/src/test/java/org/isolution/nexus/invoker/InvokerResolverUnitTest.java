@@ -14,7 +14,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 18/05/11
  * Time: 8:40 PM
  */

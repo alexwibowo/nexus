@@ -1,19 +1,23 @@
 package org.isolution.nexus.domain.dao;
 
+import javassist.expr.Instanceof;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.isolution.nexus.domain.AbstractModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.ParameterizedType;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Generic DAO implementation using Hibernate
  *
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 30/12/10
  * Time: 8:57 PM
  */
@@ -52,8 +56,17 @@ public abstract class AbstractHBDAO<M  extends AbstractModel> implements DAO<M>{
 
     @Override
     public void deleteAll() {
-        Query query = getCurrentSession().createQuery("delete from " + clazz.getName());
-        query.executeUpdate();
+        for (M instance : loadAll()) {
+            getCurrentSession().delete(instance);
+        }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<M> loadAll() {
+        Criteria criteria = getCurrentSession().createCriteria(clazz);
+        criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+        return criteria.list();
     }
 
     protected Session getCurrentSession() {

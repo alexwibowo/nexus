@@ -1,33 +1,29 @@
 package org.isolution.nexus.gateway;
 
 
-import org.isolution.nexus.domain.Endpoint;
-import org.isolution.nexus.domain.ServiceURI;
-import org.isolution.nexus.invoker.Invoker;
-import org.isolution.nexus.invoker.InvokerResolver;
-import org.isolution.nexus.routing.ServiceRouter;
+import org.isolution.nexus.invoker.InvokerController;
+import org.isolution.nexus.test.support.MockMessageContext;
 import org.isolution.nexus.xml.SOAPDocument;
 import org.isolution.springframework.ws.MessageContextHolder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
-import org.mockito.InOrder;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
+import org.mockito.Matchers;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.context.MessageContext;
+import org.springframework.ws.soap.SoapMessage;
 
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
-import java.io.IOException;
-
+import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
@@ -35,94 +31,79 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class NexusGatewayEndpointUnitTest {
 
     @Mock
-    private ServiceRouter mockServiceRouter;
-
-    @Mock
-    private InvokerResolver mockInvokerResolver;
-
-    @Mock
     private XMLStreamReader mockStreamReader;
 
     @Mock
     private XMLStreamWriter mockStreamWriter;
 
-    @Mock
     private MessageContext mockMessageContext;
 
     @Mock
-    private WebServiceMessage mockWebServiceMessage;
+    private SoapMessage mockSoapMessageRequest;
 
     @Mock
-    private Endpoint targetEndpoint;
+    private SOAPDocument mockSOAPDocumentRequest;
+
 
     @Mock
-    private Invoker mockInvoker;
+    private SoapMessage mockSoapMessageResponse;
+
+    @Mock
+    private SOAPDocument mockSOAPDocumentResponse;
 
     @Mock
     private NexusGatewayEndpointHelper helper;
 
+    @Mock
+    private InvokerController mockController;
+
+    @Captor
+    private ArgumentCaptor<SOAPDocument> controllerSOAPRequestCaptor;
+
     private NexusGatewayEndpoint gateway;
-
-    @Mock
-    private SOAPDocument mockSOAPRequest;
-
-    @Mock
-    private SOAPDocument mockSOAPResponse;
-
-    @Mock
-    private ServiceURI mockServiceURI;
 
     @Before
     public void setup() throws Exception {
-        gateway = new NexusGatewayEndpoint(mockServiceRouter, mockInvokerResolver, helper);
+        gateway = new NexusGatewayEndpoint(mockController, helper);
 
         setupMockMessageContext();
         setupSOAPMessageReading();
-        given(mockServiceRouter.findSingleActiveEndpoint("http://www.google.com/GetPriceReq")).willReturn(targetEndpoint);
-        setupMockInvocation();
-    }
 
-    private void setupMockInvocation() throws IOException {
-        given(mockInvokerResolver.resolveForEndpoint(targetEndpoint)).willReturn(mockInvoker);
-        given(mockInvoker.invoke(Mockito.<SOAPDocument>any())).willReturn(mockSOAPResponse);
+        when(mockController.invoke(Matchers.eq(mockSOAPDocumentRequest))).thenReturn(mockSOAPDocumentResponse);
+        when(mockSOAPDocumentResponse.getRawSoapMessage()).thenReturn(mockSoapMessageResponse);
     }
 
     private void setupMockMessageContext() {
         mockStatic(MessageContextHolder.class);
+        mockMessageContext = new MockMessageContext();
         given(MessageContextHolder.getMessageContext()).willReturn(mockMessageContext);
-        given(mockMessageContext.getRequest()).willReturn(mockWebServiceMessage);
+
+        ((MockMessageContext) mockMessageContext).setRequest(mockSoapMessageRequest);
     }
 
     private void setupSOAPMessageReading() {
-        given(helper.getSOAPDocument(eq(mockMessageContext), eq(mockStreamReader))).willReturn(mockSOAPRequest);
-        given(mockSOAPRequest.getServiceURI()).willReturn(mockServiceURI);
-        given(mockServiceURI.getServiceURIString()).willReturn("http://www.google.com/GetPriceReq");
+        given(helper.getSOAPDocument(eq(mockMessageContext), eq(mockStreamReader))).willReturn(mockSOAPDocumentRequest);
     }
 
     @Test
-    public void should_use_soapRequest_to_deduce_serviceURI() throws Exception {
+    public void should_attempt_to_get_soapRequest_from_the_reader() throws Exception {
         gateway.invokeInternal(mockStreamReader, mockStreamWriter);
+
         verify(helper).getSOAPDocument(Mockito.eq(mockMessageContext), Mockito.eq(mockStreamReader));
     }
 
     @Test
-    public void should_resolve_endpoint_for_the_request() throws Exception {
+    public void should_send_the_SOAPDocument_request_to_the_controller() throws Exception {
         gateway.invokeInternal(mockStreamReader, mockStreamWriter);
-        verify(mockServiceRouter).findSingleActiveEndpoint("http://www.google.com/GetPriceReq");
+
+        verify(mockController, times(1)).invoke(controllerSOAPRequestCaptor.capture());
+        assertThat(controllerSOAPRequestCaptor.getValue(), org.hamcrest.Matchers.is(mockSOAPDocumentRequest));
     }
 
     @Test
-    public void should_send_the_request_to_the_resolved_endpoint() throws Exception {
+    public void should_set_the_SOAPDocument_response_to_the_messageContext() throws Exception {
         gateway.invokeInternal(mockStreamReader, mockStreamWriter);
 
-        InOrder inOrder = inOrder(mockInvokerResolver, mockInvoker);
-        inOrder.verify(mockInvokerResolver).resolveForEndpoint(targetEndpoint);
-        inOrder.verify(mockInvoker).invoke(mockSOAPRequest);
-    }
-
-    @Test
-    public void should_write_response_to_the_stream_writer() throws Exception {
-        gateway.invokeInternal(mockStreamReader, mockStreamWriter);
-        verify(mockSOAPResponse).writeTo(Mockito.eq(mockStreamWriter));
+        assertThat((SoapMessage)mockMessageContext.getResponse(), org.hamcrest.Matchers.is(mockSoapMessageResponse));
     }
 }

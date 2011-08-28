@@ -4,7 +4,7 @@ import org.isolution.nexus.domain.Endpoint;
 import org.isolution.nexus.domain.Service;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 30/12/10
  * Time: 8:32 PM
  */

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 2/01/11
  * Time: 9:27 PM
  */

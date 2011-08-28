@@ -1,26 +1,21 @@
 package org.isolution.nexus.xml;
 
-import com.google.common.base.Preconditions;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMNamespace;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.isolution.nexus.domain.ServiceURI;
-import org.springframework.util.xml.StaxUtils;
 import org.springframework.ws.soap.SoapMessage;
-import org.springframework.ws.soap.SoapVersion;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
-import java.io.IOException;
 import java.io.OutputStream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A representation of a single SOAP message that will be read from a given {@link XMLStreamReader}.
- *
- * User: agwibowo
+ * <p/>
+ * User: Alex Wibowo
  * Date: 27/12/10
  * Time: 8:03 PM
  */
@@ -65,11 +60,6 @@ public class SOAPDocument {
     public void writePayloadTo(OutputStream os)
             throws XMLStreamException {
         stAXOMBuilder.getDocument().serialize(os);
-    }
-
-    public void writeTo(XMLStreamWriter writer)
-            throws XMLStreamException {
-        stAXOMBuilder.getDocument().serialize(writer);
     }
 
     /**

@@ -3,7 +3,7 @@ package org.isolution.nexus.domain;
 import java.text.MessageFormat;
 
 /**
- * User: agwibowo
+ * User: Alex Wibowo
  * Date: 27/01/11
  * Time: 10:15 PM
  */
