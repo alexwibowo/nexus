@@ -2,10 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/jdbc
+       http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-3.0.xsd
        http://www.springframework.org/schema/tx
@@ -20,11 +23,25 @@
     <!--</bean>-->
 
 
-    <bean id="postgreSQLDataSource"   class="org.springframework.jdbc.datasource.DriverManagerDataSource" lazy-init="true" >
+   <!-- <bean id="postgreSQLDataSource"   class="org.springframework.jdbc.datasource.DriverManagerDataSource" lazy-init="true" >
         <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url" value="jdbc:postgresql://localhost:5432/nexus"/>
         <property name="username" value="nexus"/>
         <property name="password" value="partnering"/>
+    </bean>-->
+
+    <!--
+    EMBEDDED DATABASE
+    <jdbc:embedded-database id="dataSource" type="HSQL">
+        <jdbc:script location="classpath:db/migrations/hsql/init-db.sql"/>
+    </jdbc:embedded-database>
+    -->
+
+     <bean id="hsqldbDataSource"   class="org.springframework.jdbc.datasource.DriverManagerDataSource" lazy-init="true" >
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+        <property name="url" value="jdbc:hsqldb:hsql://localhost:9090/nexus;mem:nexus"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
@@ -36,7 +53,7 @@
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-        <property name="dataSource" ref="postgreSQLDataSource"/>
+        <property name="dataSource" ref="hsqldbDataSource"/>
         <property name="annotatedClasses">
             <list>
                 <value>org.isolution.nexus.domain.Endpoint</value>
