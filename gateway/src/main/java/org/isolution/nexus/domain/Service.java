@@ -1,17 +1,11 @@
 package org.isolution.nexus.domain;
 
-import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.joda.time.DateTime;
 
-import java.sql.Timestamp;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static java.lang.String.format;
-import static org.apache.commons.lang.StringUtils.isBlank;
 
 /**
  * User: Alex Wibowo
@@ -74,10 +68,10 @@ public class Service extends AbstractModel {
      * This method also change the status of all the {@link #serviceEndpoints}
      * to {@link Status#INACTIVE}.
      */
-    public void inactivate() {
+    public void deactivate() {
         setStatus(Status.INACTIVE);
 
-        // inactivating a service theoretically sets all the relationship as inactive too!
+        // deactivating a service theoretically sets all the relationship as inactive too!
         for (ServiceEndpoint serviceEndpoint : serviceEndpoints) {
             serviceEndpoint.inactivate();
         }
@@ -95,7 +89,7 @@ public class Service extends AbstractModel {
         ServiceEndpoint se = new ServiceEndpoint();
         se.setEndpoint(endpoint);
         se.setService(this);
-        Timestamp now = new Timestamp(System.currentTimeMillis());
+        DateTime now = new DateTime();
         se.setCreateDateTime(now);
         se.setUpdateDateTime(now);
         se.setStatus(status);

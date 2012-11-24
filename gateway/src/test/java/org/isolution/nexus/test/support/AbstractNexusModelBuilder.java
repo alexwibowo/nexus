@@ -2,8 +2,7 @@ package org.isolution.nexus.test.support;
 
 import org.isolution.nexus.domain.AbstractModel;
 import org.isolution.test.support.AbstractBuilder;
-
-import java.sql.Timestamp;
+import org.joda.time.DateTime;
 
 /**
  * User: Alex Wibowo
@@ -13,17 +12,17 @@ import java.sql.Timestamp;
 public abstract class AbstractNexusModelBuilder<M extends AbstractModel> extends AbstractBuilder<M>{
 
     protected AbstractNexusModelBuilder() {
-        Timestamp now = new Timestamp(System.currentTimeMillis());
+        DateTime now = new DateTime();
         withCreateDateTime(now)
                 .withUpdateDateTime(now);
     }
 
-    public AbstractNexusModelBuilder withCreateDateTime(Timestamp value) {
+    public AbstractNexusModelBuilder withCreateDateTime(DateTime value) {
         put("createDateTime", value);
         return this;
     }
 
-    public AbstractNexusModelBuilder withUpdateDateTime(Timestamp value) {
+    public AbstractNexusModelBuilder withUpdateDateTime(DateTime value) {
         put("updateDateTime", value);
         return this;
     }

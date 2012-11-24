@@ -249,11 +249,11 @@
         <!--<artifactId>persistence-api</artifactId>-->
         <!--<version>1.0</version>-->
         <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate</groupId>-->
-        <!--<artifactId>hibernate-core</artifactId>-->
-        <!--<version>${hibernate.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
         <!--<dependency>-->
         <!--<groupId>org.hibernate</groupId>-->
         <!--<artifactId>hibernate-annotations</artifactId>-->
@@ -268,6 +268,16 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate.validator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jadira.usertype</groupId>
+            <artifactId>usertype.jodatime</artifactId>
+            <version>${jadira.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${joda.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.ws</groupId>
@@ -318,19 +328,19 @@
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
-                <version>1.1.2</version>
-                <!--<configuration>-->
-                <!--<deployables>-->
-                <!--<deployable>-->
-                <!--<groupId>org.isolution</groupId>-->
-                <!--<artifactId>nexus-gateway</artifactId>-->
-                <!--<type>war</type>-->
-                <!--<properties>-->
-                <!--<context>nexus-gateway</context>-->
-                <!--</properties>-->
-                <!--</deployable>-->
-                <!--</deployables>-->
-                <!--</configuration>-->
+                <version>1.3.1</version>
+                <configuration>
+                    <deployables>
+                        <deployable>
+                            <groupId>org.isolution</groupId>
+                            <artifactId>nexus-gateway</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>/nexus</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
+                </configuration>
                 <executions>
                     <execution>
                         <id>start-container</id>

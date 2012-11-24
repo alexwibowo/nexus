@@ -76,14 +76,14 @@ public class DatabaseServiceRouterFindEndpointUnitTest {
 
     @Test(expected = InactiveServiceException.class)
     public void should_fail_when_service_is_inactive() throws Exception{
-        service.inactivate();
+        service.deactivate();
         databaseServiceRouter.findSingleActiveEndpoint("http://www.namespace.com/payment.xsd:Payment");
     }
 
     @Test(expected = NoActiveRouteException.class)
     public void should_fail_when_the_endpoint_is_inactive() throws Exception{
-        activeEndpoint.inactivate();
-        inactiveEndpoint.inactivate();
+        activeEndpoint.deactivate();
+        inactiveEndpoint.deactivate();
         databaseServiceRouter.findSingleActiveEndpoint("http://www.namespace.com/payment.xsd:Payment");
     }
 

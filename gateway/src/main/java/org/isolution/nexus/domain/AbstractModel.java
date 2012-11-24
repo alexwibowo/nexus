@@ -1,8 +1,10 @@
 package org.isolution.nexus.domain;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * User: Alex Wibowo
@@ -21,11 +23,13 @@ public abstract class AbstractModel implements Serializable {
     @Column(name = "version")
     protected Long version;
 
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "created_date_time")
-    protected Timestamp createDateTime;
+    protected DateTime createDateTime;
 
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "updated_date_time")
-    protected Timestamp updateDateTime;
+    protected DateTime updateDateTime;
 
     public Long getId() {
         return id;
@@ -43,19 +47,19 @@ public abstract class AbstractModel implements Serializable {
         this.version = version;
     }
 
-    public Timestamp getCreateDateTime() {
+    public DateTime getCreateDateTime() {
         return createDateTime;
     }
 
-    public void setCreateDateTime(Timestamp createDateTime) {
+    public void setCreateDateTime(DateTime createDateTime) {
         this.createDateTime = createDateTime;
     }
 
-    public Timestamp getUpdateDateTime() {
+    public DateTime getUpdateDateTime() {
         return updateDateTime;
     }
 
-    public void setUpdateDateTime(Timestamp updateDateTime) {
+    public void setUpdateDateTime(DateTime updateDateTime) {
         this.updateDateTime = updateDateTime;
     }
 }

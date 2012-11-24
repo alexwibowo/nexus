@@ -1,5 +1,7 @@
 package org.isolution.nexus.domain;
 
+import com.google.common.base.Objects;
+
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
@@ -35,5 +37,15 @@ public class ServiceEndpointPk implements Serializable{
 
     public void setEndpoint(Endpoint endpoint) {
         this.endpoint = endpoint;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(service, endpoint);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return Objects.equal(this, o);
     }
 }

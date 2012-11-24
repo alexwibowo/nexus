@@ -3,9 +3,6 @@ package org.isolution.nexus.test.support;
 import org.isolution.nexus.domain.Endpoint;
 import org.isolution.nexus.domain.EndpointProtocol;
 import org.isolution.nexus.domain.Status;
-import org.isolution.test.support.AbstractBuilder;
-
-import java.sql.Timestamp;
 
 /**
  * User: Alex Wibowo

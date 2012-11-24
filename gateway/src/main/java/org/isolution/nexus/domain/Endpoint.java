@@ -1,16 +1,14 @@
 package org.isolution.nexus.domain;
 
-import org.hibernate.annotations.*;
+import com.google.common.base.Function;
 import org.isolution.common.validation.ValidURIString;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.google.common.collect.Lists.transform;
 
 /**
  * User: Alex Wibowo
@@ -79,7 +77,7 @@ public class Endpoint extends AbstractModel {
         setStatus(Status.ACTIVE);
     }
 
-    public void inactivate() {
+    public void deactivate() {
         setStatus(Status.INACTIVE);
     }
 
@@ -94,11 +92,12 @@ public class Endpoint extends AbstractModel {
 
     @Transient
     public List<Service> getServices() {
-        List<Service> services = new ArrayList<Service>();
-        for (ServiceEndpoint serviceEndpoint : serviceEndpoints) {
-            services.add(serviceEndpoint.getService());
-        }
-        return services;
+        return transform(serviceEndpoints, new Function<ServiceEndpoint, Service>() {
+            @Override
+            public Service apply(ServiceEndpoint serviceEndpoint) {
+                return serviceEndpoint.getService();
+            }
+        });
     }
 
     @Override

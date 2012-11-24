@@ -48,7 +48,7 @@ public class EndpointUnitTest {
     @Test
     public void inactivate_should_set_status_to_INACTIVE() {
         Endpoint endpoint = new Endpoint();
-        endpoint.inactivate();
+        endpoint.deactivate();
 
         assertThat(endpoint.getStatus(), is(Status.INACTIVE));
     }

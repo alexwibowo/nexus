@@ -38,4 +38,8 @@ public class MessageContextHolderInterceptor implements EndpointInterceptor {
         MessageContextHolder.removeMessageContext();
         return true;
     }
+
+    public void afterCompletion(MessageContext messageContext, Object o, Exception e) throws Exception {
+
+    }
 }

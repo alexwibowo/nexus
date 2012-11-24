@@ -1,7 +1,9 @@
 package org.isolution.nexus.domain;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.text.MessageFormat;
 
 /**
@@ -31,11 +33,13 @@ public class ServiceEndpoint {
    private Status status=Status.ACTIVE;
 
 
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "created_date_time")
-    protected Timestamp createDateTime;
+    protected DateTime createDateTime;
 
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "updated_date_time")
-    protected Timestamp updateDateTime;
+    protected DateTime updateDateTime;
 
 
     public ServiceEndpointPk getId() {
@@ -72,19 +76,19 @@ public class ServiceEndpoint {
         this.status = status;
     }
 
-    public Timestamp getCreateDateTime() {
+    public DateTime getCreateDateTime() {
         return createDateTime;
     }
 
-    public void setCreateDateTime(Timestamp createDateTime) {
+    public void setCreateDateTime(DateTime createDateTime) {
         this.createDateTime = createDateTime;
     }
 
-    public Timestamp getUpdateDateTime() {
+    public DateTime getUpdateDateTime() {
         return updateDateTime;
     }
 
-    public void setUpdateDateTime(Timestamp updateDateTime) {
+    public void setUpdateDateTime(DateTime updateDateTime) {
         this.updateDateTime = updateDateTime;
     }
 

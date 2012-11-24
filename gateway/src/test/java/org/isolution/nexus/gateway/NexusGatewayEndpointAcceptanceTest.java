@@ -1,8 +1,10 @@
 package org.isolution.nexus.gateway;
 
-import com.sun.net.httpserver.*;
-import org.hamcrest.Matchers;
-import org.isolution.nexus.domain.*;
+import com.sun.net.httpserver.HttpServer;
+import org.isolution.nexus.domain.Endpoint;
+import org.isolution.nexus.domain.Service;
+import org.isolution.nexus.domain.ServiceURI;
+import org.isolution.nexus.domain.Status;
 import org.isolution.nexus.domain.dao.EndpointDAO;
 import org.isolution.nexus.domain.dao.ServiceDAO;
 import org.isolution.nexus.test.support.AbstractTransactionalTest;
@@ -18,27 +20,18 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.ws.WebServiceMessage;
-import org.springframework.ws.context.DefaultMessageContext;
-import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.soap.SoapMessageFactory;
 import org.springframework.ws.transport.WebServiceConnection;
-import org.springframework.ws.transport.WebServiceMessageSender;
-import org.springframework.ws.transport.context.DefaultTransportContext;
-import org.springframework.ws.transport.context.TransportContextHolder;
 import org.springframework.ws.transport.http.CommonsHttpMessageSender;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLStreamException;
-import java.io.*;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.*;
-import java.sql.Timestamp;
-import java.util.List;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-import static com.google.common.base.Joiner.on;
-import static org.apache.commons.io.IOUtils.readLines;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -96,7 +89,7 @@ public class NexusGatewayEndpointAcceptanceTest extends AbstractTransactionalTes
         WebServiceConnection connection = getConnection();
         connection.send(soapRequest);
 
-        assertThat("This request is not expected to fail", connection.hasError(), is(false));
+        assertThat("This request is not expected to fail, but an error [" + connection.getErrorMessage() + "] was received", connection.hasError(), is(false));
         WebServiceMessage response = connection.receive(soapMessageFactory);
         connection.close();
         return response;
@@ -125,7 +118,7 @@ public class NexusGatewayEndpointAcceptanceTest extends AbstractTransactionalTes
     private WebServiceConnection getConnection()
             throws IOException, URISyntaxException {
         CommonsHttpMessageSender sender = new CommonsHttpMessageSender();
-        return sender.createConnection(new URI("http://localhost:8080/nexus-gateway-1.0-SNAPSHOT/"));
+        return sender.createConnection(new URI("http://localhost:8080/nexus/"));
     }
 
 }

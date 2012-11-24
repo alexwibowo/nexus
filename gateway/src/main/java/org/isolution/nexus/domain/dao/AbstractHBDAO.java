@@ -1,17 +1,14 @@
 package org.isolution.nexus.domain.dao;
 
-import javassist.expr.Instanceof;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.classic.Session;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.isolution.nexus.domain.AbstractModel;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.ParameterizedType;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,8 +31,9 @@ public abstract class AbstractHBDAO<M  extends AbstractModel> implements DAO<M>{
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public M save(M value) {
-        Timestamp currentTimestamp = new Timestamp(new Date().getTime());
+        DateTime currentTimestamp = new DateTime();
         if (value.getId() == null) {
             value.setCreateDateTime(currentTimestamp);
         }

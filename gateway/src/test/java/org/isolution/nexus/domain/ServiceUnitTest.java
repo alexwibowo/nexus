@@ -1,6 +1,5 @@
 package org.isolution.nexus.domain;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +34,7 @@ public class ServiceUnitTest {
 
     @Test
     public void should_set_all_serviceEndpoint_relationship_to_inactive_when_inactivating_service() {
-        service.inactivate();
+        service.deactivate();
         assertThat(service.isActive(), is(false));
         assertThat(service.getServiceEndpoints().get(0).isActive(), is(false));
         assertThat(service.getServiceEndpoints().get(1).isActive(), is(false));
