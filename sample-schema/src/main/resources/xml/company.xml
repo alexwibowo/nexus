@@ -1,0 +1,11 @@
+<nex:HolidayRequest xmlns:nex="http://www.isolution.org/nexus">
+  <nex:employee>
+    <nex:Number>100</nex:Number>
+    <nex:FirstName>string</nex:FirstName>
+    <nex:LastName>string</nex:LastName>
+  </nex:employee>
+  <nex:holiday>
+    <nex:StartDate>2008-09-29</nex:StartDate>
+    <nex:EndDate>2014-09-19</nex:EndDate>
+  </nex:holiday>
+</nex:HolidayRequest>

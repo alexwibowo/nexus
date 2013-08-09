@@ -55,11 +55,11 @@
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="hsqldbDataSource"/>
         <property name="annotatedClasses">
-            <list>
+            <array>
                 <value>org.isolution.nexus.domain.Endpoint</value>
                 <value>org.isolution.nexus.domain.Service</value>
                 <value>org.isolution.nexus.domain.ServiceEndpoint</value>
-            </list>
+            </array>
         </property>
         <property name="hibernateProperties">
             <props>

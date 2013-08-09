@@ -1,0 +1,58 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+           targetNamespace="http://www.isolution.org/nexus"
+           xmlns:hr="http://www.isolution.org/nexus">
+
+    <xs:complexType name="Employee">
+        <xs:sequence>
+            <xs:element name="Number" type="xs:integer"/>
+            <xs:element name="FirstName" type="xs:string"/>
+            <xs:element name="LastName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Holiday">
+        <xs:sequence>
+            <xs:element name="StartDate" type="xs:date"/>
+            <xs:element name="EndDate" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="BudgetHoliday">
+        <xs:complexContent>
+            <xs:extension base="hr:Holiday">
+                <xs:sequence>
+                    <xs:element name="Allowance">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                                <xs:maxInclusive value="100"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="SuperHoliday">
+        <xs:complexContent>
+            <xs:extension base="hr:Holiday">
+                <xs:sequence>
+                    <xs:element name="Allowance" type="xs:decimal"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <xs:element name="HolidayRequest">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="employee" type="hr:Employee"/>
+                <xs:element name="holiday" type="hr:Holiday"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
