@@ -5,3 +5,4 @@ out/*
 *.ids
 *.iws
 .project
+**/target/**/*

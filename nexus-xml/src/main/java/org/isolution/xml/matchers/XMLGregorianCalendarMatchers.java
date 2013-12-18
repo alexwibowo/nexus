@@ -23,7 +23,6 @@ public class XMLGregorianCalendarMatchers extends TypeSafeMatcher<XMLGregorianCa
                 actual.getTimezone() == expected.getTimezone();
     }
 
-    @Override
     public void describeTo(Description description) {
         description.appendText(" doesnt match [" + expected.toString() + "]");
     }
