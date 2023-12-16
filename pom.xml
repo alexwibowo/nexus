@@ -108,7 +108,7 @@
     <pluginRepositories>
         <pluginRepository>
             <id>Maven Snapshots</id>
-            <url>http://snapshots.maven.codehaus.org/maven2/</url>
+            <url>https://snapshots.maven.codehaus.org/maven2/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
